@@ -4,4 +4,4 @@ title: About
 permalink: /about/
 ---
 
-I wrote these documents in markdown.
+I wrote these documents in markdown. If you would like a local copy so you can read them off line, download the source code files. If you go back to my home (bottom of this page), I'm posting some comments about using the markdown files.
