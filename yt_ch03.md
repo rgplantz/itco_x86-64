@@ -67,10 +67,10 @@ nav_order: 10
         If j = N
             Let borrow = 1
             Subtract 1 from j
-            Add 2 to xi
+            Add 16 to xi
         While j > i
             Subtract 1 from xi
             Subtract 1 from j
-            Add 2 to xi
+            Add 16 to xi
         Let differencei = xi − yi
 ```
