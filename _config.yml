@@ -21,7 +21,7 @@
 title: Introduction to Computer Organization, x86-64
 email: rgplantz@outlook.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Uses the Jeckyll Minima theme.
+  Resources for Introduction to Computer Organization, x86-64.
 baseurl: "/itco_x86-64" # the subpath of your site, e.g. /blog
 url: "https:rgplantz.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: jekyllrb
