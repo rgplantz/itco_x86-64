@@ -7,9 +7,9 @@
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
           <li><a class="u-url" href="https://rgplantz.github.io">my home</a>
-          </li>
-          {%- if site.author.email -%}
-            <li><a class="u-email" href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></li>
+            </li>
+            {%- if site.email -%}
+            <li>email: <a class="u-email" href="mailto:{{ site.email }}">{{ site.email }}</a></li>
             {%- endif -%}
         </ul>
       </div>
