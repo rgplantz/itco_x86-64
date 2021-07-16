@@ -24,53 +24,53 @@ nav_order: 10
 ```
     Let carry = 0
     Repeat for each i = 0,...,(n - 1)  // starting in ones place
-        sumi = (x<sub>i</sub> + y<sub>i</sub>) % 2           // remainder
-        carry = (x<sub>i</sub> + y<sub>i</sub>) / 2         // integer division
+        sumi = (xi + yi) % 2           // remainder
+        carry = (xi + yi) / 2         // integer division
 ```
 3. Hexadecimal addition
 ```
     Let carry = 0
     Repeat for each i = 0,...,(n - 1)  // starting in ones place
-        sumi = (x<sub>i</sub> + y<sub>i</sub>) % 16           // remainder
-        carry = (x<sub>i</sub> + y<sub>i</sub>) / 16         // integer division
+        sumi = (xi + yi) % 16           // remainder
+        carry = (xi + yi) / 16         // integer division
 ```
 4. Binary subtraction
 ```
     Let borrow = 0
     Repeat for i = 0,··· ,(N − 1)
-    If y<sub>i</sub> ≤ x<sub>i</sub> 
-        Let differencei = x<sub>i</sub> − y<sub>i</sub>
+    If yi ≤ xi 
+        Let differencei = xi − yi
     Else
         Let j = i + 1
-        While (x<sub>i</sub> = 0) and (j < N)
+        While (xi = 0) and (j < N)
             Add 1 to j
         If j = N
             Let borrow = 1
             Subtract 1 from j
-            Add 2 to x<sub>i</sub>
+            Add 2 to xi
         While j > i
-            Subtract 1 from x<sub>i</sub>
+            Subtract 1 from xi
             Subtract 1 from j
-            Add 2 to x<sub>i</sub>
-        Let differencei = x<sub>i</sub> − y<sub>i</sub>
+            Add 2 to xi
+        Let differencei = xi − yi
 ```
 5. Hexadecimal subtracton
 ```
     Let borrow = 0
     Repeat for i = 0,··· ,(N − 1)
-    If y<sub>i</sub> ≤ x<sub>i</sub> 
-        Let differencei = x<sub>i</sub> − y<sub>i</sub>
+    If yi ≤ xi 
+        Let differencei = xi − yi
     Else
         Let j = i + 1
-        While (x<sub>i</sub> = 0) and (j < N)
+        While (xi = 0) and (j < N)
             Add 1 to j
         If j = N
             Let borrow = 1
             Subtract 1 from j
-            Add 2 to x<sub>i</sub>
+            Add 2 to xi
         While j > i
-            Subtract 1 from x<sub>i</sub>
+            Subtract 1 from xi
             Subtract 1 from j
-            Add 2 to x<sub>i</sub>
-        Let differencei = x<sub>i</sub> − y<sub>i</sub>
+            Add 2 to xi
+        Let differencei = xi − yi
 ```
