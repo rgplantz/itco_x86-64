@@ -1,13 +1,11 @@
 ---
 layout: default
-title: Chap 2
-parent: Solutions
-nav_order: 10
+title: Chapter 2
 ---
 
-# Chapter 2 Solutions
+## Chapter 2
 
-## Page aa
+### Page aa
 1. Binary to hexadecimal
 
     - `0100 0101 0110 0111` = `4567`
@@ -37,7 +35,7 @@ nav_order: 10
     - 20 bits, 5 hex digits
     - 7 bits, 2 hex digits
 
-## Page bb
+### Page bb
 1. r = 10, n = 8, d<sub>7</sub> = 2, d<sub>6</sub> = 9, d<sub>5</sub> = 4, d<sub>4</sub> = 5, d<sub>3</sub> = 8, d<sub>2</sub> = 2, d<sub>1</sub> = 5, d<sub>0</sub> = 4 and r = 16, n = 8, d<sub>7</sub> = 2, d<sub>6</sub> = 9, d<sub>5</sub> = 4, d<sub>4</sub> = 5, d<sub>3</sub> = 8, d<sub>2</sub> = 2, d<sub>1</sub> = 5, d<sub>0</sub> = 4
 
 2. Binary to decimal
@@ -70,7 +68,7 @@ nav_order: 10
     - `abcd` = 43981
     - `5555` = 21845
 
-## Page cc
+### Page cc
 1. Unsigned decimal to hexadecimal
     - 100 = `64`
     - 123 = `7b`
@@ -91,7 +89,7 @@ nav_order: 10
     - 4660 = `1234`
     - 43981 = `abcd`
 
-## Page dd
+### Page dd
 1. Uppercase A - F
    - A: `0x41`
    - B: `0x42`
@@ -134,7 +132,7 @@ nav_order: 10
     | %  |`0x25`| ,  |`0x2c`| =  |`0x3d`| ^  |`0x5e`|
     | &  |`0x26`| -  |`0x2d`| >  |`0x3e`| _  |`0x5f`|
 
-## Page ee
+### Page ee
 1. 
 
     ```c

@@ -1,13 +1,11 @@
 ---
 layout: default
-title: Chap 3
-parent: Solutions
-nav_order: 10
+title: Chapter 3
 ---
 
-# Chapter 3 Solutions
+## Chapter 3
 
-## Page aa
+### Page aa
 1. Four bits are required to store a single decimal digit.
    Many codes could be used. This one uses the binary number system.
 
