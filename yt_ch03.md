@@ -21,13 +21,13 @@ nav_order: 10
     |  4  |`0100`|  9  |`1001`|
 
 2. Binary addition
-<code>
+```
     Let carry = 0
     Repeat for each i = 0,...,(n - 1)  // starting in ones place
-        sumi = (x<sub>1</sub> + yi) % 2           // remainder
+        sumi = (xi + yi) % 2           // remainder
         carry = (xi + yi) / 2         // integer division
-</code>
-1. Hexadecimal addition
+```
+3. Hexadecimal addition
 ```
     Let carry = 0
     Repeat for each i = 0,...,(n - 1)  // starting in ones place
