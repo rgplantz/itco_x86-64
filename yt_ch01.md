@@ -1,13 +1,11 @@
 ---
 layout: default
-title: Chap 1
-parent: Solutions
-nav_order: 10
+title: Chapter 1
 ---
 
-# Chapter 1 Solutions
+## Chapter 1
 
-## Page aa
+### Page aa
 1. There are several Linux commands that show you the details of the components in your computer. For example, `lscpu` will show you the details of your CPU:
 ```
     $ lscpu
@@ -61,3 +59,5 @@ nav_order: 10
                                     vnmi flexpriority ept vpid dtherm ida flush_l1d
     $ 
 ```
+Other useful commands are `free` to see memory usage and `lsusb` to see your USB devices.
+Chapter 3 in Brian Ward's *How Linux Works. 2nd edition*, No Starch Press, 2015, is devoted to getting information about the devices installed in your computer.
