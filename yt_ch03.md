@@ -21,56 +21,56 @@ nav_order: 10
     |  4  |`0100`|  9  |`1001`|
 
 2. Binary addition
-```
+<pre>
     Let carry = 0
     Repeat for each i = 0,...,(n - 1)  // starting in ones place
-        sumi = (xi + yi) % 2           // remainder
-        carry = (xi + yi) / 2         // integer division
-```
+        sum<sub>i</sub> = (x<sub>i</sub> + y<sub>i</sub>) % 2           // remainder
+        carry = (x<sub>i</sub> + y<sub>i</sub>) / 2         // integer division
+</pre>
 3. Hexadecimal addition
-```
+<pre>
     Let carry = 0
     Repeat for each i = 0,...,(n - 1)  // starting in ones place
-        sumi = (xi + yi) % 16           // remainder
-        carry = (xi + yi) / 16         // integer division
-```
+        sum<sub>i</sub> = (x<sub>i</sub>) + y<sub>i</sub>) % 16           // remainder
+        carry = (x<sub>i</sub> + y<sub>i</sub>) / 16         // integer division
+</pre>
 4. Binary subtraction
-```
+<pre>
     Let borrow = 0
     Repeat for i = 0,··· ,(N − 1)
-    If yi ≤ xi 
-        Let differencei = xi − yi
+    If y<sub>i</sub> ≤ x<sub>i</sub> 
+        Let difference<sub>i</sub> = x<sub>i</sub> − y<sub>i</sub>
     Else
         Let j = i + 1
-        While (xi = 0) and (j < N)
+        While (x<sub>i</sub> = 0) and (j < N)
             Add 1 to j
         If j = N
             Let borrow = 1
             Subtract 1 from j
-            Add 2 to xi
+            Add 2 to x<sub>i</sub>
         While j > i
-            Subtract 1 from xi
+            Subtract 1 from x<sub>i</sub>
             Subtract 1 from j
-            Add 2 to xi
-        Let differencei = xi − yi
-```
+            Add 2 to x<sub>i</sub>
+        Let difference<sub>i</sub> = x<sub>i</sub> − y<sub>i</sub>
+</pre>
 5. Hexadecimal subtracton
-```
+<pre>
     Let borrow = 0
     Repeat for i = 0,··· ,(N − 1)
-    If yi ≤ xi 
-        Let differencei = xi − yi
+    If y<sub>i</sub> ≤ x<sub>i</sub> 
+        Let difference<sub>i</sub> = x<sub>i</sub> − y<sub>i</sub>
     Else
         Let j = i + 1
-        While (xi = 0) and (j < N)
+        While (x<sub>i</sub> = 0) and (j < N)
             Add 1 to j
         If j = N
             Let borrow = 1
             Subtract 1 from j
-            Add 16 to xi
+            Add 16 to x<sub>i</sub>
         While j > i
-            Subtract 1 from xi
+            Subtract 1 from x<sub>i</sub>
             Subtract 1 from j
-            Add 16 to xi
-        Let differencei = xi − yi
-```
+            Add 16 to x<sub>i</sub>
+        Let difference<sub>i</sub> = x<sub>i</sub> − y<sub>i</sub>
+</pre>
