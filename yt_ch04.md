@@ -3,7 +3,7 @@ layout: default
 title: Chapter 4
 ---
 
-## Chapter 3
+## Chapter 4
 
 ### Page aa
 1.  Associativity of AND and OR is shown in Tables 4-3 and 4-4 in the book.
