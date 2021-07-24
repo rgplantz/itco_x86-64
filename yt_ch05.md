@@ -7,29 +7,29 @@ title: Chapter 5
 
 ### Page aa
 1.  Using NOR gates.
-   * Using truth tables
-
-     |  x  |  x  | &not;(x &or; x) |
-     |-----|-----|-----------------|
-     | `0` | `0` |        `1`      |
-     | `1` | `1` |        `0`      |
-
-      we can design a NOT gate,
+    * Using truth tables
         
-     ![](./assets/images/ch_05/NOT_from_NOR.svg)
-    
-   * an AND gate,
+        |  x  |  x  | &not;(x &or; x) |
+        |-----|-----|-----------------|
+        | `0` | `0` |        `1`      |
+        | `1` | `1` |        `0`      |
+        
+        we can design a NOT gate,
 
-     |  x  |  y  | &not;x | &not;y | &not;(&not;x &or; &not;x) |
-     |-----|-----|--------|--------|---------------------------|
-     | `0` | `0` |  `1`   |  `1`   |            `0`            |
-     | `0` | `1` |  `1`   |  `0`   |            `0`            |
-     | `1` | `0` |  `0`   |  `1`   |            `0`            |
-     | `1` | `1` |  `0`   |  `0`   |            `1`            |
+        ![](./assets/images/ch_05/NOT_from_NOR.svg)
+
+    * an AND gate,
+
+        |  x  |  y  | &not;x | &not;y | &not;(&not;x &or; &not;x) |
+        |-----|-----|--------|--------|---------------------------|
+        | `0` | `0` |  `1`   |  `1`   |            `0`            |
+        | `0` | `1` |  `1`   |  `0`   |            `0`            |
+        | `1` | `0` |  `0`   |  `1`   |            `0`            |
+        | `1` | `1` |  `0`   |  `0`   |            `1`            |
        
-     ![](./assets/images/ch_05/AND_from_NOR.svg)
+        ![](./assets/images/ch_05/AND_from_NOR.svg)
     
-   * and an OR gate
+    * and an OR gate
 
      |  x  |  y  | &not;(x &or; x) | &not;(&not;(x &or; x)) |
      |-----|-----|-----------------|------------------------|
