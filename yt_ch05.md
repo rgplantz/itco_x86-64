@@ -9,14 +9,14 @@ title: Chapter 5
 1.  Using NOR gates.
    * Using truth tables
 
-        |  x  |  x  | &not;(x &or; x) |
-        |-----|-----|-----------------|
-        | `0` | `0` |        `1`      |
-        | `1` | `1` |        `0`      |
+     |  x  |  x  | &not;(x &or; x) |
+     |-----|-----|-----------------|
+     | `0` | `0` |        `1`      |
+     | `1` | `1` |        `0`      |
 
-        we can design a NOT gate,
+      we can design a NOT gate,
         
-        ![](./assets/images/ch_05/NOT_from_NOR.svg)
+     ![](./assets/images/ch_05/NOT_from_NOR.svg)
     
    * an AND gate,
 
@@ -40,7 +40,7 @@ title: Chapter 5
         
         ![](./assets/images/ch_05/OR_from_NOR.svg)
     
-2. We start with a truth table show when x is below y
+2. We start with a truth table showing when x is below y, F(x,y)
 
     |x<sub>1</sub>|x<sub>0</sub>|y<sub>1</sub>|y<sub>0</sub>| F(x,y) |
     |-------------|-------------|-------------|-------------|--------|
@@ -63,5 +63,5 @@ title: Chapter 5
 
     F(x,y) can be implemented with NAND gates:
 
-        ![](./assets/images/ch_05/below_condition.svg)
+    ![](./assets/images/ch_05/below_condition.svg)
     
