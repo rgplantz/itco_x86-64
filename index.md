@@ -14,6 +14,8 @@ Here are my solutions to the Your Turn exercises for each chapter:
 [Chapter 4,](./yt_ch04.md)
 [Chapter 5,](./yt_ch05.md)
 [Chapter 6,](./yt_ch06.md)
+No Your Turn exercises in Chapter 7,
+[Chapter 8,](./yt_ch08.md)
 
 ## Source Code Files
 If you wish, you can download the source code files for both the Listings in the text and my solutions to the Your Turn programming exercises in a single
