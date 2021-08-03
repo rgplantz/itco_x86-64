@@ -22,7 +22,7 @@ title: Chapter 9
   int inches;
   register int *ptr;
   ```
-2. 
+2. Endianess.
   ```c
   /* endian.c
   * Determines endianess. If endianess cannot be determined
@@ -57,7 +57,7 @@ title: Chapter 9
       return 0;
   }
   ```
-3.
+3. Endianess is property of CPU.
   ```c
   /* endianReg.c
   * Stores user int in memory then copies to register var.
