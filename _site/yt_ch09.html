@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Chapter 9 | Introduction to Computer Organization, x86-64</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Chapter 9" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Resources for Introduction to Computer Organization, x86-64." />
+<meta property="og:description" content="Resources for Introduction to Computer Organization, x86-64." />
+<link rel="canonical" href="http://localhost:4000/itco_x86-64/yt_ch09.html" />
+<meta property="og:url" content="http://localhost:4000/itco_x86-64/yt_ch09.html" />
+<meta property="og:site_name" content="Introduction to Computer Organization, x86-64" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 9" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"http://localhost:4000/itco_x86-64/yt_ch09.html","headline":"Chapter 9","description":"Resources for Introduction to Computer Organization, x86-64.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/itco_x86-64/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/itco_x86-64/feed.xml" title="Introduction to Computer Organization, x86-64" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/itco_x86-64/">Introduction to Computer Organization, x86-64</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/itco_x86-64/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h2 id="chapter-9">Chapter 9</h2>
+
+<h3 id="page-aa">Page aa</h3>
+<ol>
+  <li>
+    <p>The compiler gives an error message:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> gcc -g -c -Wall -masm=intel inches2feet.c
+ inches2feet.c: In function ‘main’:
+ inches2feet.c:15:3: error: address of register variable ‘inches’ requested
+   15 |   ptr = &amp;inches;
+       |   ^~~
+ make: *** [makefile:12: inches2feet.o] Error 1
+</code></pre></div>    </div>
+
+    <p>We cannot take the address of a register variable. However, we can ask the compiler to use a register for the <code class="language-plaintext highlighter-rouge">ptr</code> variable:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">register</span> <span class="kt">int</span> <span class="n">feet</span><span class="p">;</span>
+ <span class="k">register</span> <span class="kt">int</span> <span class="n">inchesRem</span><span class="p">;</span>
+ <span class="kt">int</span> <span class="n">inches</span><span class="p">;</span>
+ <span class="k">register</span> <span class="kt">int</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Endianess.</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cm">/* endian.c
+ * Determines endianess. If endianess cannot be determined
+ * from input value, defaults to "big endian"
+ */</span>
+
+ <span class="cp">#include &lt;stdio.h&gt;
+</span>
+ <span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+     <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">bigEndian</span><span class="p">;</span>
+      
+     <span class="n">ptr</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">x</span><span class="p">;</span>
+      
+     <span class="n">printf</span><span class="p">(</span><span class="s">"Enter a non-zero integer: "</span><span class="p">);</span>
+     <span class="n">scanf</span><span class="p">(</span><span class="s">"%i"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">);</span>
+      
+     <span class="n">printf</span><span class="p">(</span><span class="s">"You entered %#010x and it is stored</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+     <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+         <span class="n">printf</span><span class="p">(</span><span class="s">"   %p: %02x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ptr</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">ptr</span> <span class="o">+</span> <span class="n">i</span><span class="p">));</span>
+
+     <span class="n">bigEndian</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">ptr</span> <span class="o">==</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="mh">0xff</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">24</span><span class="p">)))</span> <span class="o">&amp;&amp;</span>
+             <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">ptr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="mh">0xff</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">)))</span> <span class="o">&amp;&amp;</span>
+             <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">ptr</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="mh">0xff</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">)))</span> <span class="o">&amp;&amp;</span>
+             <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">ptr</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="mh">0xff</span> <span class="o">&amp;</span> <span class="n">x</span><span class="p">));</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">bigEndian</span><span class="p">)</span>
+         <span class="n">printf</span><span class="p">(</span><span class="s">"which is big endian.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+     <span class="k">else</span>
+         <span class="n">printf</span><span class="p">(</span><span class="s">"which is little endian.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+ <span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Endianess is property of CPU.</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cm">/* endianReg.c
+ * Stores user int in memory then copies to register var.
+ * Use gdb to observe endianess.
+ */</span>
+
+ <span class="cp">#include &lt;stdio.h&gt;
+</span>
+ <span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+     <span class="k">register</span> <span class="kt">int</span> <span class="n">y</span><span class="p">;</span>
+      
+     <span class="n">printf</span><span class="p">(</span><span class="s">"Enter an integer: "</span><span class="p">);</span>
+     <span class="n">scanf</span><span class="p">(</span><span class="s">"%i"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">);</span>
+      
+     <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+     <span class="n">printf</span><span class="p">(</span><span class="s">"You entered %i</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+
+     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+ <span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>Running this under <code class="language-plaintext highlighter-rouge">gdb</code> I got:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> (gdb) b 17
+ Breakpoint 1 at 0x11d1: file endianReg.c, line 17.
+ (gdb) r
+ Starting program: /home/bob/GitHub/itco_x86-64/build/chapter_09/Your_Turn/endianess_CPU/endianReg 
+ Enter an integer: 12345
+
+ Breakpoint 1, main () at endianReg.c:17
+ 17          printf("You entered %i\n", y);
+ (gdb) print &amp;x
+ $1 = (int *) 0x7fffffffdb04
+ (gdb) print &amp; y
+ Address requested for identifier "y" which is in register $rbx
+ (gdb) i r rbx
+ rbx            0x3039              12345
+ (gdb) x/4xb 0x7fffffffdb04
+ 0x7fffffffdb04: 0x39    0x30    0x00    0x00
+ (gdb)
+</code></pre></div>    </div>
+
+    <p>This shows that the <code class="language-plaintext highlighter-rouge">int</code> is stored little endian in memory, but the individual bytes are loaded into the register (<code class="language-plaintext highlighter-rouge">rbx</code>) in the correct order.</p>
+  </li>
+</ol>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/itco_x86-64/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li><a class="u-url" href="https://rgplantz.github.io">my home</a>
+            </li><li>email: <a class="u-email" href="mailto:rgplantz@outlook.com">rgplantz@outlook.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/rgplantz"><svg class="svg-icon"><use xlink:href="/itco_x86-64/assets/minima-social-icons.svg#github"></use></svg> <span class="username">rgplantz</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Resources for Introduction to Computer Organization, x86-64.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
