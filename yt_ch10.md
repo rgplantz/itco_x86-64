@@ -32,8 +32,8 @@ title: Chapter 10
     We also need a header fiile so we can call this function in C.
     ```c
     /* f.h
-    * Returns 0
-    */
+     * Returns 0
+     */
 
     #ifndef F_H
     #define F_H
@@ -43,19 +43,19 @@ title: Chapter 10
     And here's a simple C function to display the return value.
     ```c
     /* test_f.c
-    * Tests f() function.
-    */
+     * Tests f() function.
+     */
 
     #include <stdio.h>
     #include "f.h"
 
     int main(void)
     {
-    int returnValue;
-    returnValue = f();
-    printf("f returned %i.\n", returnValue);
+      int returnValue;
+      returnValue = f();
+      printf("f returned %i.\n", returnValue);
 
-    return 0;
+      return 0;
     }
     ```
 4. 
@@ -166,7 +166,8 @@ title: Chapter 10
 5. 
     ```c
     /* test_chars.c
-    * Tests three functions that return chars.*/
+     * Tests three functions that return chars.
+     */
 
     #include <stdio.h>
     #include "exclaim.h"
@@ -187,81 +188,83 @@ title: Chapter 10
     }
     ```
     ```c
-    /* twelve.h
-     * Returns 12
+    /* exclaim.h
+     * Returns '!'
      */
 
-    #ifndef TWELVE_H
-    #define TWELVE_H
-    int twelve(void);
+    #ifndef EXCLAIM_H
+    #define EXCLAIM_H
+    char exclaim(void);
     #endif
+
     ```
     ```asm
-    # twelve.s
-    # Returns twelve.
+    # exclaim.s
+    # Returns '!'.
             .intel_syntax noprefix
             .text
-            .globl  twelve
-            .type   twelve, @function
-    twelve:
+            .globl  exclaim
+            .type   exclaim, @function
+    exclaim:
             push    rbp         # save caller's frame pointer
             mov     rbp, rsp    # establish our frame pointer
 
-            mov     eax, 12     # return 12;
+            mov     eax, '!'    # return '!';
 
             mov     rsp, rbp    # restore stack pointer
             pop     rbp         # restore caller's frame pointer
             ret                 # back to caller
     ```
     ```c
-    /* thirtyFour.h
-     * Returns 34
+    /* upperOh.h
+     * Returns 'O'
      */
 
-    #ifndef THIRTYFOUR_H
-    #define THIRTYFOUR_H
-    int thirtyFour(void);
+    #ifndef UPPEROH_H
+    #define UPPEROH_H
+    char upperOh(void);
     #endif
     ```
     ```asm
-    # thirtyFour.s
-    # Returns 34.
-          .intel_syntax noprefix
-          .text
-          .globl  thirtyFour
-          .type   thirtyFour, @function
-    thirtyFour:
-          push    rbp         # save caller's frame pointer
-          mov     rbp, rsp    # establish our frame pointer
-
-          mov     eax, 34     # return 34;
-
-          mov     rsp, rbp    # restore stack pointer
-          pop     rbp         # restore caller's frame pointer
-          ret                 # back to caller
-    ```
-    ```c
-    /* fiftySix.h
-     * Returns 56
-     */
-
-    #ifndef FIFTYSIX_H
-    #define FIFTYSIX_H
-    int fiftySix(void);
-    #endif
-    ```
-    ```asm
-    # fiftySix.s
-    # Returns 56.
+    # upperOh.s
+    # Returns 'O'.
             .intel_syntax noprefix
             .text
-            .globl  fiftySix
-            .type   fiftySix, @function
-    fiftySix:
+            .globl  upperOh
+            .type   upperOh, @function
+    upperOh:
             push    rbp         # save caller's frame pointer
             mov     rbp, rsp    # establish our frame pointer
 
-            mov     eax, 56     # return 56;
+            mov     eax, 'O'    # return 'O';
+
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # restore caller's frame pointer
+            ret                 # back to caller
+    ```
+    ```c
+    /* tilde.h
+     * Returns '~'
+     */
+
+    #ifndef TILDE_H
+    #define TILDE_H
+    char tilde(void);
+    #endif
+
+    ```
+    ```asm
+    # tilde.s
+    # Returns '~'.
+            .intel_syntax noprefix
+            .text
+            .globl  tilde
+            .type   tilde, @function
+    tilde:
+            push    rbp         # save caller's frame pointer
+            mov     rbp, rsp    # establish our frame pointer
+
+            mov     eax, '~'    # return '~';
 
             mov     rsp, rbp    # restore stack pointer
             pop     rbp         # restore caller's frame pointer
