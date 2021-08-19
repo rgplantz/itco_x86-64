@@ -10,24 +10,25 @@ title: Chapter 10
    
    Changing the exit value to 123 gave me `Inferior 1 (process 4891) exited with code 0173]` when `gdb` ended execution of the program. A number beginning with `0` in `gdb` means that it's in octal: `173`<sub>8</sub> = 123<sub>10</sub>
 
-2. 
-   ```asm
-   # f.s
-   # Minimum components of a C function, in assembly language.
-         .intel_syntax noprefix
-         .text
-         .globl  f
-         .type   f, @function
-   f:
-         push    rbp         # save caller's frame pointer
-         mov     rbp, rsp    # establish our frame pointer
+2. It broke at the first {. I couldn't see what was going on in either the prologue or the epilogue. `gdb` only shows the source code, which is in C.
+3. 
+```asm
+# f.s
+# Minimum components of a C function, in assembly language.
+.intel_syntax noprefix
+.text
+.globl  f
+.type   f, @function
+f:
+      push    rbp         # save caller's frame pointer
+      mov     rbp, rsp    # establish our frame pointer
 
-         mov     eax, 0      # return 0;
+      mov     eax, 0      # return 0;
 
-         mov     rsp, rbp    # restore stack pointer
-         pop     rbp         # restore caller's frame pointer
-         ret                 # back to caller
-   ```
+      mov     rsp, rbp    # restore stack pointer
+      pop     rbp         # restore caller's frame pointer
+      ret                 # back to caller
+```
    We also need a header fiile so we can call this function in C
    ```c
    /* f.h
@@ -57,10 +58,10 @@ title: Chapter 10
    return 0;
    }
    ```
-3. yyy
-   * a
+4. 
+   * 
    ```c
-   /* test_f.c
+   /* test_ints.c
    * Tests three functions that return ints.
    */
 
@@ -82,7 +83,7 @@ title: Chapter 10
    return 0;
    }
    ```
-   * b
+   * 
    ```c
    /* twelve.h
    * Returns 12
@@ -93,13 +94,106 @@ title: Chapter 10
    int twelve(void);
    #endif
    ```
-   * c
-   * d
-   * e
-   * f
-   * g
-4. zzz
+   * 
+   ```asm
+   # twelve.s
+   # Returns twelve.
+           .intel_syntax noprefix
+           .text
+           .globl  twelve
+           .type   twelve, @function
+   twelve:
+           push    rbp         # save caller's frame pointer
+           mov     rbp, rsp    # establish our frame pointer
+
+           mov     eax, 12     # return 12;
+
+           mov     rsp, rbp    # restore stack pointer
+           pop     rbp         # restore caller's frame pointer
+           ret                 # back to caller
+   ```
+   * 
+   ```c
+   /* thirtyFour.h
+   * Returns 34
+   */
+
+   #ifndef THIRTYFOUR_H
+   #define THIRTYFOUR_H
+   int thirtyFour(void);
+   #endif
+   ```
+   * 
+   ```asm
+   # thirtyFour.s
+   # Returns 34.
+         .intel_syntax noprefix
+         .text
+         .globl  thirtyFour
+         .type   thirtyFour, @function
+   thirtyFour:
+         push    rbp         # save caller's frame pointer
+         mov     rbp, rsp    # establish our frame pointer
+
+         mov     eax, 34     # return 34;
+
+         mov     rsp, rbp    # restore stack pointer
+         pop     rbp         # restore caller's frame pointer
+         ret                 # back to caller
+   ```
+   * 
+   ```c
+   /* fiftySix.h
+   * Returns 56
+   */
+
+   #ifndef FIFTYSIX_H
+   #define FIFTYSIX_H
+   int fiftySix(void);
+   #endif
+   ```
+   * 
+   ```asm
+   # fiftySix.s
+   # Returns 56.
+         .intel_syntax noprefix
+         .text
+         .globl  fiftySix
+         .type   fiftySix, @function
+   fiftySix:
+         push    rbp         # save caller's frame pointer
+         mov     rbp, rsp    # establish our frame pointer
+
+         mov     eax, 56     # return 56;
+
+         mov     rsp, rbp    # restore stack pointer
+         pop     rbp         # restore caller's frame pointer
+         ret                 # back to caller
+   ```
+5. zzz
    * a
+   ```c
+   /* test_chars.c
+   * Tests three functions that return chars.*/
+
+      #include <stdio.h>
+      #include "exclaim.h"
+      #include "upperOh.h"
+      #include "tilde.h"
+
+      int main(void)
+      {
+      char return1, return2, return3;
+
+      return1 = exclaim();
+      return2 = upperOh();
+      return3 = tilde();
+      printf("The returned chars are: %c, %c, and %c.\n",
+            return1, return2, return3);
+
+      return 0;
+      }
+   ```
    * b
    * c
    * d
