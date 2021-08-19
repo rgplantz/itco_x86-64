@@ -11,7 +11,8 @@ title: Chapter 10
    Changing the exit value to 123 gave me `Inferior 1 (process 4891) exited with code 0173]` when `gdb` ended execution of the program. A number beginning with `0` in `gdb` means that it's in octal: `173`<sub>8</sub> = 123<sub>10</sub>
 
 2. It broke at the first {. I couldn't see what was going on in either the prologue or the epilogue. `gdb` only shows the source code, which is in C.
-3. 
+3.  Minimum C program in assembly language.
+
     ```asm
     # f.s
     # Minimum components of a C function, in assembly language.
@@ -29,7 +30,9 @@ title: Chapter 10
           pop     rbp         # restore caller's frame pointer
           ret                 # back to caller
     ```
+
     We also need a header fiile so we can call this function in C.
+
     ```c
     /* f.h
      * Returns 0
@@ -40,7 +43,9 @@ title: Chapter 10
     int f(void);
     #endif
     ```
+
     And here's a simple C function to display the return value.
+
     ```c
     /* test_f.c
      * Tests f() function.
@@ -58,7 +63,9 @@ title: Chapter 10
       return 0;
     }
     ```
-4. 
+
+4.  Return `int`s
+ 
     ```c
     /* test_ints.c
      * Tests three functions that return ints.
@@ -82,6 +89,7 @@ title: Chapter 10
       return 0;
     }
     ```
+
     ```c
     /* twelve.h
      * Returns 12
@@ -92,6 +100,7 @@ title: Chapter 10
     int twelve(void);
     #endif
     ```
+
     ```asm
     # twelve.s
     # Returns twelve.
@@ -109,6 +118,7 @@ title: Chapter 10
             pop     rbp         # restore caller's frame pointer
             ret                 # back to caller
     ```
+
     ```c
     /* thirtyFour.h
      * Returns 34
@@ -119,6 +129,7 @@ title: Chapter 10
     int thirtyFour(void);
     #endif
     ```
+
     ```asm
     # thirtyFour.s
     # Returns 34.
@@ -136,6 +147,7 @@ title: Chapter 10
           pop     rbp         # restore caller's frame pointer
           ret                 # back to caller
     ```
+
     ```c
     /* fiftySix.h
      * Returns 56
@@ -146,6 +158,7 @@ title: Chapter 10
     int fiftySix(void);
     #endif
     ```
+
     ```asm
     # fiftySix.s
     # Returns 56.
@@ -163,7 +176,9 @@ title: Chapter 10
             pop     rbp         # restore caller's frame pointer
             ret                 # back to caller
     ```
-5. 
+
+5. Return `char`s
+
     ```c
     /* test_chars.c
      * Tests three functions that return chars.
@@ -187,6 +202,7 @@ title: Chapter 10
       return 0;
     }
     ```
+
     ```c
     /* exclaim.h
      * Returns '!'
@@ -196,8 +212,8 @@ title: Chapter 10
     #define EXCLAIM_H
     char exclaim(void);
     #endif
-
     ```
+
     ```asm
     # exclaim.s
     # Returns '!'.
@@ -215,6 +231,7 @@ title: Chapter 10
             pop     rbp         # restore caller's frame pointer
             ret                 # back to caller
     ```
+
     ```c
     /* upperOh.h
      * Returns 'O'
@@ -225,6 +242,7 @@ title: Chapter 10
     char upperOh(void);
     #endif
     ```
+
     ```asm
     # upperOh.s
     # Returns 'O'.
@@ -242,6 +260,7 @@ title: Chapter 10
             pop     rbp         # restore caller's frame pointer
             ret                 # back to caller
     ```
+
     ```c
     /* tilde.h
      * Returns '~'
@@ -253,6 +272,7 @@ title: Chapter 10
     #endif
 
     ```
+
     ```asm
     # tilde.s
     # Returns '~'.
