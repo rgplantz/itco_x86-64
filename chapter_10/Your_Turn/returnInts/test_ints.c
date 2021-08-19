@@ -1,4 +1,4 @@
-/* test_f.c
+/* test_ints.c
  * Tests three functions that return ints.
  */
 
