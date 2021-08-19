@@ -12,177 +12,169 @@ title: Chapter 10
 
 2. It broke at the first {. I couldn't see what was going on in either the prologue or the epilogue. `gdb` only shows the source code, which is in C.
 3. 
-```asm
-# f.s
-# Minimum components of a C function, in assembly language.
-.intel_syntax noprefix
-.text
-.globl  f
-.type   f, @function
-f:
-      push    rbp         # save caller's frame pointer
-      mov     rbp, rsp    # establish our frame pointer
+    ```asm
+    # f.s
+    # Minimum components of a C function, in assembly language.
+    .intel_syntax noprefix
+    .text
+    .globl  f
+    .type   f, @function
+    f:
+          push    rbp         # save caller's frame pointer
+          mov     rbp, rsp    # establish our frame pointer
 
-      mov     eax, 0      # return 0;
+          mov     eax, 0      # return 0;
 
-      mov     rsp, rbp    # restore stack pointer
-      pop     rbp         # restore caller's frame pointer
-      ret                 # back to caller
-```
-   We also need a header fiile so we can call this function in C
-   ```c
-   /* f.h
-   * Returns 0
-   */
+          mov     rsp, rbp    # restore stack pointer
+          pop     rbp         # restore caller's frame pointer
+          ret                 # back to caller
+    ```
+    We also need a header fiile so we can call this function in C.
+    ```c
+    /* f.h
+    * Returns 0
+    */
 
-   #ifndef F_H
-   #define F_H
-   int f(void);
-   #endif
-   ```
-   And here's a simple C function to display the return value.
-   ```c
-   /* test_f.c
-   * Tests f() function.
-   */
+    #ifndef F_H
+    #define F_H
+    int f(void);
+    #endif
+    ```
+    And here's a simple C function to display the return value.
+    ```c
+    /* test_f.c
+    * Tests f() function.
+    */
 
-   #include <stdio.h>
-   #include "f.h"
+    #include <stdio.h>
+    #include "f.h"
 
-   int main(void)
-   {
-   int returnValue;
-   returnValue = f();
-   printf("f returned %i.\n", returnValue);
+    int main(void)
+    {
+    int returnValue;
+    returnValue = f();
+    printf("f returned %i.\n", returnValue);
 
-   return 0;
-   }
-   ```
+    return 0;
+    }
+    ```
 4. 
-   * 
-   ```c
-   /* test_ints.c
-   * Tests three functions that return ints.
-   */
+    ```c
+    /* test_ints.c
+     * Tests three functions that return ints.
+     */
 
-   #include <stdio.h>
-   #include "twelve.h"
-   #include "thirtyFour.h"
-   #include "fiftySix.h"
+    #include <stdio.h>
+    #include "twelve.h"
+    #include "thirtyFour.h"
+    #include "fiftySix.h"
 
-   int main(void)
-   {
-   int return1, return2, return3;
+    int main(void)
+    {
+      int return1, return2, return3;
 
-   return1 = twelve();
-   return2 = thirtyFour();
-   return3 = fiftySix();
-   printf("The returned ints are: %i, %i, and %i.\n",
+      return1 = twelve();
+      return2 = thirtyFour();
+      return3 = fiftySix();
+      printf("The returned ints are: %i, %i, and %i.\n",
             return1, return2, return3);
 
-   return 0;
-   }
-   ```
-   * 
-   ```c
-   /* twelve.h
-   * Returns 12
-   */
+      return 0;
+    }
+    ```
+    ```c
+    /* twelve.h
+     * Returns 12
+     */
 
-   #ifndef TWELVE_H
-   #define TWELVE_H
-   int twelve(void);
-   #endif
-   ```
-   * 
-   ```asm
-   # twelve.s
-   # Returns twelve.
-           .intel_syntax noprefix
-           .text
-           .globl  twelve
-           .type   twelve, @function
-   twelve:
-           push    rbp         # save caller's frame pointer
-           mov     rbp, rsp    # establish our frame pointer
+    #ifndef TWELVE_H
+    #define TWELVE_H
+    int twelve(void);
+    #endif
+    ```
+    ```asm
+    # twelve.s
+    # Returns twelve.
+            .intel_syntax noprefix
+            .text
+            .globl  twelve
+            .type   twelve, @function
+    twelve:
+            push    rbp         # save caller's frame pointer
+            mov     rbp, rsp    # establish our frame pointer
 
-           mov     eax, 12     # return 12;
+            mov     eax, 12     # return 12;
 
-           mov     rsp, rbp    # restore stack pointer
-           pop     rbp         # restore caller's frame pointer
-           ret                 # back to caller
-   ```
-   * 
-   ```c
-   /* thirtyFour.h
-   * Returns 34
-   */
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # restore caller's frame pointer
+            ret                 # back to caller
+    ```
+    ```c
+    /* thirtyFour.h
+     * Returns 34
+     */
 
-   #ifndef THIRTYFOUR_H
-   #define THIRTYFOUR_H
-   int thirtyFour(void);
-   #endif
-   ```
-   * 
-   ```asm
-   # thirtyFour.s
-   # Returns 34.
-         .intel_syntax noprefix
-         .text
-         .globl  thirtyFour
-         .type   thirtyFour, @function
-   thirtyFour:
-         push    rbp         # save caller's frame pointer
-         mov     rbp, rsp    # establish our frame pointer
+    #ifndef THIRTYFOUR_H
+    #define THIRTYFOUR_H
+    int thirtyFour(void);
+    #endif
+    ```
+    ```asm
+    # thirtyFour.s
+    # Returns 34.
+          .intel_syntax noprefix
+          .text
+          .globl  thirtyFour
+          .type   thirtyFour, @function
+    thirtyFour:
+          push    rbp         # save caller's frame pointer
+          mov     rbp, rsp    # establish our frame pointer
 
-         mov     eax, 34     # return 34;
+          mov     eax, 34     # return 34;
 
-         mov     rsp, rbp    # restore stack pointer
-         pop     rbp         # restore caller's frame pointer
-         ret                 # back to caller
-   ```
-   * 
-   ```c
-   /* fiftySix.h
-   * Returns 56
-   */
+          mov     rsp, rbp    # restore stack pointer
+          pop     rbp         # restore caller's frame pointer
+          ret                 # back to caller
+    ```
+    ```c
+    /* fiftySix.h
+     * Returns 56
+     */
 
-   #ifndef FIFTYSIX_H
-   #define FIFTYSIX_H
-   int fiftySix(void);
-   #endif
-   ```
-   * 
-   ```asm
-   # fiftySix.s
-   # Returns 56.
-         .intel_syntax noprefix
-         .text
-         .globl  fiftySix
-         .type   fiftySix, @function
-   fiftySix:
-         push    rbp         # save caller's frame pointer
-         mov     rbp, rsp    # establish our frame pointer
+    #ifndef FIFTYSIX_H
+    #define FIFTYSIX_H
+    int fiftySix(void);
+    #endif
+    ```
+    ```asm
+    # fiftySix.s
+    # Returns 56.
+            .intel_syntax noprefix
+            .text
+            .globl  fiftySix
+            .type   fiftySix, @function
+    fiftySix:
+            push    rbp         # save caller's frame pointer
+            mov     rbp, rsp    # establish our frame pointer
 
-         mov     eax, 56     # return 56;
+            mov     eax, 56     # return 56;
 
-         mov     rsp, rbp    # restore stack pointer
-         pop     rbp         # restore caller's frame pointer
-         ret                 # back to caller
-   ```
-5. zzz
-   * a
-   ```c
-   /* test_chars.c
-   * Tests three functions that return chars.*/
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # restore caller's frame pointer
+            ret                 # back to caller
+    ```
+5. 
+    ```c
+    /* test_chars.c
+    * Tests three functions that return chars.*/
 
-      #include <stdio.h>
-      #include "exclaim.h"
-      #include "upperOh.h"
-      #include "tilde.h"
+    #include <stdio.h>
+    #include "exclaim.h"
+    #include "upperOh.h"
+    #include "tilde.h"
 
-      int main(void)
-      {
+    int main(void)
+    {
       char return1, return2, return3;
 
       return1 = exclaim();
@@ -192,9 +184,87 @@ f:
             return1, return2, return3);
 
       return 0;
-      }
-   ```
-   * b
-   * c
-   * d
+    }
+    ```
+    ```c
+    /* twelve.h
+     * Returns 12
+     */
+
+    #ifndef TWELVE_H
+    #define TWELVE_H
+    int twelve(void);
+    #endif
+    ```
+    ```asm
+    # twelve.s
+    # Returns twelve.
+            .intel_syntax noprefix
+            .text
+            .globl  twelve
+            .type   twelve, @function
+    twelve:
+            push    rbp         # save caller's frame pointer
+            mov     rbp, rsp    # establish our frame pointer
+
+            mov     eax, 12     # return 12;
+
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # restore caller's frame pointer
+            ret                 # back to caller
+    ```
+    ```c
+    /* thirtyFour.h
+     * Returns 34
+     */
+
+    #ifndef THIRTYFOUR_H
+    #define THIRTYFOUR_H
+    int thirtyFour(void);
+    #endif
+    ```
+    ```asm
+    # thirtyFour.s
+    # Returns 34.
+          .intel_syntax noprefix
+          .text
+          .globl  thirtyFour
+          .type   thirtyFour, @function
+    thirtyFour:
+          push    rbp         # save caller's frame pointer
+          mov     rbp, rsp    # establish our frame pointer
+
+          mov     eax, 34     # return 34;
+
+          mov     rsp, rbp    # restore stack pointer
+          pop     rbp         # restore caller's frame pointer
+          ret                 # back to caller
+    ```
+    ```c
+    /* fiftySix.h
+     * Returns 56
+     */
+
+    #ifndef FIFTYSIX_H
+    #define FIFTYSIX_H
+    int fiftySix(void);
+    #endif
+    ```
+    ```asm
+    # fiftySix.s
+    # Returns 56.
+            .intel_syntax noprefix
+            .text
+            .globl  fiftySix
+            .type   fiftySix, @function
+    fiftySix:
+            push    rbp         # save caller's frame pointer
+            mov     rbp, rsp    # establish our frame pointer
+
+            mov     eax, 56     # return 56;
+
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # restore caller's frame pointer
+            ret                 # back to caller
+    ```
 
