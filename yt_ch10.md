@@ -177,7 +177,7 @@ title: Chapter 10
             ret                 # back to caller
     ```
 
-5. Return `char`s
+5.  Return `char`s
 
     ```c
     /* test_chars.c
