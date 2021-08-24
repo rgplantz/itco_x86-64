@@ -7,7 +7,7 @@ title: Chapter 11
 
 ### Page 241
 1. The operating system reads characters as you type them on the keyboard and stores them in a buffer. You can edit the line before entering it. When you push the `enter` key, all the characters in the line, including the `enter` character at the end, become available to the application. The program in Listing 11-6 reads only one character, leaving the `enter` character in the buffer. The program ends and returns to the shell, which reads the `enter` character from the buffer.
-2. If you don't change the offset of `aLetter`, you'll get a stack violation error. I also read two characters to remove the `enter` character from the keyboard buffer.
+2. If you don't change the offset of `aLetter`, you'll get a stack violation error. I also read two characters from the keyboard to remove the `enter` character from the keyboard buffer.
 
     ```asm
     # echoChar.s
