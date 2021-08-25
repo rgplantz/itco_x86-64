@@ -7,8 +7,8 @@ title: Chapter 11
 
 ### Page 241
 1.  The operating system reads characters as you type them on the keyboard and stores them in a buffer. You can edit the line before entering it. When you push the `enter` key, all the characters in the line, including the `enter` character at the end, become available to the application. The program in Listing 11-6 reads only one character, leaving the `enter` character in the buffer. The program ends and returns to the shell, which reads the `enter` character from the buffer.
-2.  If you don't change the offset of `aLetter`, you'll get a stack violation error. I also read two characters from the keyboard to remove the `enter` character from the keyboard buffer.
-
+2.  Change the `mov edx, 1` instruction just before the call to the `read` function to 'mov edx,2` so that it reads two characters from the keyboard to remove the `enter` character from the keyboard buffer. Note that you also need to change the offset of `aLetter` to avoid getting a stack violation error. 
+3.  My `main` function here allocates sixteen bytes for local variables in the stack frame. Eight are for the stack canary, leaving eight for the message. When you increase the length of the message beyond eigth bytes (don't forget to include the newline and NUL characters) the `theMessage` function overwrites the stack canary, and you get an error message.
     ```asm
     # message.s
     # Prints a message on screen
