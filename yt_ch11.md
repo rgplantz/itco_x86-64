@@ -15,6 +15,7 @@ title: Chapter 11
             .intel_syntax noprefix
     # Stack frame
             .equ    aMessage,-16
+            .equ    canary,-8
             .equ    localSize,-16
 
     # Constant data
@@ -32,7 +33,7 @@ title: Chapter 11
             add     rsp, localSize  # for local variable
 
             mov     rax, fs:40      # get stack canary
-            mov     -8[rbp], rax    # and save it
+            mov     canary[rbp], rax    # and save it
 
             lea     rdi, aMessage[rbp]  # place to put message
             call    theMessage      # get the message
@@ -45,7 +46,7 @@ title: Chapter 11
 
             mov     eax, 0        # return 0
 
-            mov     rcx, -8[rbp]  # retrieve saved canary
+            mov     rcx, canary[rbp]  # retrieve saved canary
             xor     rcx, fs:40    # and check it
             je      goodCanary
             call    __stack_chk_fail@PLT    # bad canary
