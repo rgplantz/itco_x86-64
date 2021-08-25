@@ -6,6 +6,7 @@
         .equ    STDOUT,1
 # Stack frame
         .equ    aLetter,-9
+        .equ    canary,-8
         .equ    localSize,-16
 
 # Constant data
@@ -26,7 +27,7 @@ main:
         add     rsp, localSize # for local variable
 
         mov     rax, fs:40    # get stack canary
-        mov     -8[rbp], rax  # and save it
+        mov     canary[rbp], rax  # and save it
 
         mov     edx, promptSz # prompt size
         lea     rsi, prompt[rip] # address of prompt text string
@@ -50,7 +51,7 @@ main:
 
         mov     eax, 0        # return 0
 
-        mov     rcx, -8[rbp]  # retrieve saved canary
+        mov     rcx, canary[rbp]  # retrieve saved canary
         xor     rcx, fs:40    # and check it
         je      goodCanary
         call    __stack_chk_fail@PLT    # bad canary
