@@ -1,0 +1,25 @@
+GAS LISTING register.s 			page 1
+
+
+   1              	# register.s
+   2              	# Some instructions to illustrate machine code.
+   3              	        .intel_syntax noprefix
+   4              	        .text
+   5              	        .globl  main
+   6              	        .type   main, @function
+   7              	main:
+   8 0000 55       	        push    rbp         # save caller's frame pointer
+   9 0001 4889E5   	        mov     rbp, rsp    # establish our frame pointer
+  10              	        
+  11 0004 89C8     	        mov     eax, ecx    # 32 bits, low reg codes
+  12 0006 89F7     	        mov     edi, esi    # highest reg codes
+  13 0008 6689C8   	        mov     ax, cx      # 16 bits
+  14 000b 88C8     	        mov     al, cl      # 8 bits
+  15 000d 4489C0   	        mov     eax, r8d    # 32 bits, 64-bit register
+  16 0010 4889C8   	        mov     rax, rcx    # 64 bits
+  17              	
+  18 0013 B8000000 	        mov     eax, 0      # return 0 to os
+  18      00
+  19 0018 4889EC   	        mov     rsp, rbp    # restore stack pointer
+  20 001b 5D       	        pop     rbp         #   and frame pointer
+  21 001c C3       	        ret                 # back to caller
