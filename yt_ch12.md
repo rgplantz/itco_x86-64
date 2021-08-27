@@ -6,7 +6,7 @@ title: Chapter 12
 ## Chapter 12
 
 ### Page 258
-1.  xxx
+1.  
     ```
     GAS LISTING register_change.s 			page 1
 
@@ -66,7 +66,7 @@ title: Chapter 12
     ```
     Look at the three instructions where we reversed the order of the source and destination thus moving from a register to memory. Comparing the machine code with the respective instructions in Listing 12-3, we see that the only thing that has chaned is the opcode has changed from `8B` to `89`.
 
-3.  aa
+3.  
     ```
     GAS LISTING constToMemory.s 			page 1
 
@@ -87,7 +87,7 @@ title: Chapter 12
       13 000f 8B4500   	        mov     eax, [rbp]          # indirect
       14 0012 C745D034 	        mov     dword ptr -48[rbp], 0x12000034       # indirect + offset  
       14      000012
-      15 0019 C7440D30 	        mov     dword ptr 48[rbp+rcx], 0x56000078   # indirect + offset and index 
+      15 0019 C7440D30 	        mov     dword ptr -48[rbp+rcx], 0x56000078   # indirect + offset and index 
       15      78000056 
       16 0021 C7448DD0 	        mov     dword ptr -48[rbp+4*rcx], 0x91000023 #      and scaled index 
       16      23000091 
@@ -98,4 +98,7 @@ title: Chapter 12
       20 0031 5D       	        pop     rbp         #   and frame pointer
       21 0032 C3       	        ret                 # back to caller
     ``` 
-
+    Let's look at the `mov     dword ptr -48[rbp+4*rcx], 0x91000023` instruction. The opcode is `0xc7`. That's followed by a ModR/M byte, an SIB byte, an offset byte, and four bytes for the constant.
+    
+    The `0x44` value for the ModR/B byte means that it is followed by an SIB byte with a one-byte offset. The SIB byte, `10 001 101`, specifies a scale factor of 4, `rcx` is the index register, and `rbp` is the base register. The offset is stored as a one-byte, two's complement value: `0xd0` = -48<sub>10</sub>. Notice that the constant, `0x91000023`, is stored in little endian order, `0x23000091`.
+    
