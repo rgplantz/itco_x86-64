@@ -1,4 +1,4 @@
-/* switch.c
+/* switch_15.c
  * Three-way selection.
  */
 
@@ -9,7 +9,7 @@ int main(void)
   register int selector;
   register int i;
 
-  for (i = 1; i <= 10; i++)
+  for (i = 1; i <= 15; i++)
   {
     selector = i;
     switch (selector)

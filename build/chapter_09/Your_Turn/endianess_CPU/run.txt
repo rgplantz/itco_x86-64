@@ -1,0 +1,17 @@
+(gdb) b 17
+Breakpoint 1 at 0x11d1: file endianReg.c, line 17.
+(gdb) r
+Starting program: /home/bob/GitHub/itco_x86-64/build/chapter_09/Your_Turn/endianess_CPU/endianReg 
+Enter an integer: 12345
+
+Breakpoint 1, main () at endianReg.c:17
+17          printf("You entered %i\n", y);
+(gdb) print &x
+$1 = (int *) 0x7fffffffdb04
+(gdb) print & y
+Address requested for identifier "y" which is in register $rbx
+(gdb) i r rbx
+rbx            0x3039              12345
+(gdb) x/4xb 0x7fffffffdb04
+0x7fffffffdb04: 0x39    0x30    0x00    0x00
+(gdb) 
