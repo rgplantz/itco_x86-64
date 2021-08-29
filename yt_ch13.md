@@ -78,7 +78,7 @@ title: Chapter 13
             ret                 # end program
     ``` 
 ### Page 286
-1.  xxx
+1.  
     ```asm
     # coinFlipsEndsMid.s
     # flips a coin, heads/tails
@@ -132,6 +132,7 @@ title: Chapter 13
       ret
     ```
 2.  The only thing you need to do is to change the limit in the `for` statement from 10 to 15. That changes only the `cmp     ebx, 10` at the `.L2` label to `cmp     ebx, 15`.
+
     ```asm
             .file   "switch_15.c"
             .intel_syntax noprefix
