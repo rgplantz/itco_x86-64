@@ -5,8 +5,9 @@ title: Chapter 13
 
 ## Chapter 13
 
-### Page 258
-1.  
+### Page 276
+1.  You can do this one on your own. When I did it, the `while` loop and `for` loop were implemented with exactly the same assembly language. The `do-while` loop was different, since it always executes the body of the loop at least once.
+2.  
     ```
     GAS LISTING register_change.s 			page 1
 
@@ -35,7 +36,7 @@ title: Chapter 13
       21 001c C3       	        ret                 # back to caller
     ```
     Let's look at the code for `mov     r11d, r10d`. We can tell from the manual and several other `mov` instructions that the opcode is `89`. It's prefaced with a REX byte, `01000101`. The W bit is `0`, showing that the data being moved is not 64 bits but the default 32 bits. The `R` and `B` bits in the REX byte are both `1` which are used as the high-order bit to specify the registers. The ModR/B byte is `11010011`. Figure 2-5 in the xxx version of the Intel manual shows that the first two bits, `11`, specify a register-to-register move. The next three bits combine with the `R` bit in the REX byte to give `1010`, which Table 12-2 in our book shows is `r10`. The last three bits combine with the `B` bit in the REX byte to give `1011`, which specifies `r11`.
-2.  
+3.  
     ```
     GAS LISTING regToMemory.s 			page 1
 
@@ -66,7 +67,7 @@ title: Chapter 13
     ```
     Look at the three instructions where we reversed the order of the source and destination thus moving from a register to memory. Comparing the machine code with the respective instructions in Listing 12-3, we see that the only thing that has chaned is the opcode has changed from `8B` to `89`.
 
-3.  
+4.  
     ```
     GAS LISTING constToMemory.s 			page 1
 
