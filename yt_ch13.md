@@ -131,7 +131,7 @@ title: Chapter 13
             pop     rbp         # restore frame pointer
       ret
     ```
-2.  yyy
+2.  The only thing you need to do is to change the limit in the `for` statement from 10 to 15. That changes only the `cmp     ebx, 10` at the `.L2` label to `cmp     ebx, 15`.
     ```asm
             .file   "switch_15.c"
             .intel_syntax noprefix
@@ -195,7 +195,7 @@ title: Chapter 13
             .ident  "GCC: (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0"
             .section        .note.GNU-stack,"",@progbits
     ```
-3.  zzz
+3.  First, I changed the limit of the `for` statement from 10 to 15, and that gave me a segmentation fault. When using a jump table, we need to provide a place on the table for each possible case. You can see in the code here that I've added five entries on the table.
     ```asm
     # switch.s
     # Three-way switch using jump table
