@@ -76,7 +76,8 @@ title: Chapter 13
             mov     rsp, rbp    # restore stack pointer
             pop     rbp         # and caller frame pointer
             ret                 # end program
-    ``` 
+    ```
+
 ### Page 286
 1.  
     ```asm
