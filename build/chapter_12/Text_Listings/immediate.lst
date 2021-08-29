@@ -1,0 +1,29 @@
+GAS LISTING immediate.s 			page 1
+
+
+   1              	# immediate.s
+   2              	# Some instructions to illustrate machine code.
+   3              	        .intel_syntax noprefix
+   4              	        .text
+   5              	        .globl  main
+   6              	        .type   main, @function
+   7              	main:
+   8 0000 55       	        push    rbp         # save caller's frame pointer
+   9 0001 4889E5   	        mov     rbp, rsp    # establish our frame pointer
+  10              	        
+  11 0004 B0AB     	        mov     al, 0xab    # 8-bit immediate
+  12 0006 66B8CDAB 	        mov     ax, 0xabcd  # 16-bit immediate
+  13 000a B812EFCD 	        mov     eax, 0xabcdef12  # 32-bit immediate
+  13      AB
+  14 000f 48B812EF 	        mov     rax, 0xabcdef12  #    to 64-bit reg
+  14      CDAB0000 
+  14      0000
+  15 0019 48B88967 	        mov     rax, 0xabcdef0123456789  # 64-bit immediate
+  15      452301EF 
+  15      CDAB
+  16              	
+  17 0023 B8000000 	        mov     eax, 0      # return 0 to os
+  17      00
+  18 0028 4889EC   	        mov     rsp, rbp    # restore stack pointer
+  19 002b 5D       	        pop     rbp         #   and frame pointer
+  20 002c C3       	        ret                 # back to caller
