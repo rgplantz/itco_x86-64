@@ -1,4 +1,4 @@
-# addConst.s
+# addConstCount.s
 # Adds constant to automatic, static, global variables.
         .intel_syntax noprefix
 
