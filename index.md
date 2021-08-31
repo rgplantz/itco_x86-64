@@ -22,6 +22,8 @@ No Your Turn exercises in Chapter 7,
 [Chapter 12,](./yt_ch12.md)
 [Chapter 13,](./yt_ch13.md)
 [Chapter 14,](./yt_ch14.md)
+[Chapter 15,](./yt_ch15.md)
+[Chapter 16,](./yt_ch16.md)
 
 ## Source Code Files
 If you wish, you can download the source code files for both the Listings in the text and my solutions to the Your Turn programming exercises in a single
