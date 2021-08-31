@@ -1,0 +1,95 @@
+bob@bob-MS-7522:~/NoStarch/x-86/progs_working/chap14a/factorial_C$ gdb ./threeFactorial 
+GNU gdb (Ubuntu 9.2-0ubuntu1~20.04) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./threeFactorial...
+(gdb) li factorial
+1	/* factorial.c
+2	 */
+3	#include "factorial.h"
+4	
+5	unsigned int factorial(unsigned int n)
+6	{
+7	  if (n == 0)
+8	    return 1;
+9	  else
+10	    return n * factorial(n - 1);
+(gdb) 
+11	}
+12	
+(gdb) b 10
+Breakpoint 1 at 0x11a5: file factorial.c, line 10.
+(gdb) b 11
+Breakpoint 2 at 0x11b6: file factorial.c, line 11.
+(gdb) r
+Starting program: /home/bob/NoStarch/x-86/progs_working/chap14a/factorial_C/threeFactorial 
+
+Breakpoint 1, factorial (n=3) at factorial.c:10
+10	    return n * factorial(n - 1);
+(gdb) i r rdi rbp rsp
+rdi            0x3                 3
+rbp            0x7fffffffde40      0x7fffffffde40
+rsp            0x7fffffffde30      0x7fffffffde30
+(gdb) x/4xg 0x7fffffffde30
+0x7fffffffde30:	0x00007ffff7fb1fc8	0x00000003555551c0
+0x7fffffffde40:	0x00007fffffffde60	0x0000555555555166
+(gdb) cont
+Continuing.
+
+Breakpoint 1, factorial (n=2) at factorial.c:10
+10	    return n * factorial(n - 1);
+(gdb) 
+Continuing.
+
+Breakpoint 1, factorial (n=1) at factorial.c:10
+10	    return n * factorial(n - 1);
+(gdb) i r rdi rbp rsp
+rdi            0x1                 1
+rbp            0x7fffffffde00      0x7fffffffde00
+rsp            0x7fffffffddf0      0x7fffffffddf0
+(gdb) x/12xg 0x7fffffffddf0
+0x7fffffffddf0:	0x0000000000000000	0x0000000100000000
+0x7fffffffde00:	0x00007fffffffde20	0x00005555555551b2
+0x7fffffffde10:	0x00000000000000c2	0x00000002ffffde47
+0x7fffffffde20:	0x00007fffffffde40	0x00005555555551b2
+0x7fffffffde30:	0x00007ffff7fb1fc8	0x00000003555551c0
+0x7fffffffde40:	0x00007fffffffde60	0x0000555555555166
+(gdb) cont
+Continuing.
+
+Breakpoint 2, factorial (n=0) at factorial.c:11
+11	}
+(gdb) 
+Continuing.
+
+Breakpoint 2, factorial (n=1) at factorial.c:11
+11	}
+(gdb) 
+Continuing.
+
+Breakpoint 2, factorial (n=2) at factorial.c:11
+11	}
+(gdb) i r rdi rbp rsp
+rdi            0x0                 0
+rbp            0x7fffffffde20      0x7fffffffde20
+rsp            0x7fffffffde10      0x7fffffffde10
+(gdb) cont
+Continuing.
+
+Breakpoint 2, factorial (n=3) at factorial.c:11
+11	}
+(gdb) 
+
+
