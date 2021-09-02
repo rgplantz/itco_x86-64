@@ -7,6 +7,7 @@ title: Chapter 15
 
 ### Page 326
 1.  I got the following. Your numbers may differ.
+
     ```
     (gdb) l factorial
     1       /* factorial.c
@@ -60,10 +61,11 @@ title: Chapter 15
 
 ### Page 334
 1.  Look for CF.
+
     ```c
     /* sumUInts.c
-    * Adds two unsigned integers
-    */
+     * Adds two unsigned integers
+     */
 
     #include <stdio.h>
     #include "addTwoCF.h"
@@ -122,7 +124,8 @@ title: Chapter 15
             ret
     ```
 
-2.  
+2.  z
+
     ```c
     /* sumUInts.c
     * Adds two unsigned integers
