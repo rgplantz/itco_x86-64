@@ -58,6 +58,7 @@ title: Chapter 15
     ```
     From the assembly language in Listing 15-4 we see that each stack frame is 48 bytes, 8 for the return address, 8 for saving the caller's `rbp`, and 32 for the local variables in `factorial`. So I display 6 giant (64-bit) numbers in hex for each of the three stack frames. We can see the value of `n` in each stack frame by looking at the first 32 bits in the values at `0x7fffffffd97c`, `0x7fffffffd9ac`, and `0x7fffffffd9dc`. (Reminder: This is a little endian computer.) Notice that the return addresses in the stack frames for n = 1 and n = 2 (the top two in this display) are the same: `0x00005555555551b2`. This is the return address to the `factorial` subfunction, showing that it's called recursively.
 
+
 ### Page 334
 1.  
     ```c
