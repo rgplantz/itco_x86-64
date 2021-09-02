@@ -1,12 +1,11 @@
-# upperCase.s
-# Makes user alphabetic text string all upper case
+# changeCase.s
+# Changes user alphabetic text to opposite case
         .intel_syntax noprefix
 # Stack frame
         .equ    myString,-64
         .equ    canary,-8
         .equ    localSize,-64
 # Useful constants
-        .equ    upperMask,0xdf
         .equ    MAX,50  # character buffer limit
         .equ    NUL,0
 # Constant data
@@ -15,7 +14,7 @@
 prompt:
         .string	"Enter up to 50 alphabetic characters: "
 message:
-        .string	"All upper: "
+        .string	"Opposite case: "
 newLine:
         .string	"\n"
 # Code
@@ -38,7 +37,7 @@ main:
 
         lea     rsi, myString[rbp]  # destination string
         lea     rdi, myString[rbp]  # source string
-        call    toUpper
+        call    change
         
         lea     rdi, message[rip]   # tell user
         call    writeStr
