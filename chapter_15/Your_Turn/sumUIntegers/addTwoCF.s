@@ -4,7 +4,7 @@
 #       edi <- x, 32-bit unsigned int
 #       esi <- y, 32-bit unisgned int
 #       rdx <- &z, place to store sum
-#       returns value of OF
+#       returns value of CF
         .intel_syntax noprefix
 
 # Code
