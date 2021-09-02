@@ -22,7 +22,7 @@ toLower:
         add     rsp, localSize      # for local var.
         
         mov     dword ptr count[rbp], 0
-whileLoop:
+dowhileLoop:
         mov 	  al, byte ptr [rdi]  # char from source
         mov     byte ptr [rsi], al  # char to destination
         cmp     al, NUL             # was it the end?
@@ -31,9 +31,8 @@ whileLoop:
         inc     rdi         # increment
         inc     rsi         #      pointers
         inc     dword ptr count[rbp]    # and counter
-        jmp     whileLoop   # continue loop
+        jmp     dowhileLoop # continue loop
 allDone:
-        mov     byte ptr [rsi], al  # finish with NUL
         mov     eax, dword ptr count[rbp]   # return count
 
         mov     rsp, rbp    # restore stack pointer
