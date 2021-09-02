@@ -1,10 +1,12 @@
-# upperCase.s
-# Makes user alphabetic text string all upper case
+# bothCases.s
+# Makes user alphabetic text string both cases
         .intel_syntax noprefix
 # Stack frame
-        .equ    myString,-64
+        .equ    upperCase,-164
+        .equ    lowerCase,-112
+        .equ    myString,-60
         .equ    canary,-8
-        .equ    localSize,-64
+        .equ    localSize,-176
 # Useful constants
         .equ    upperMask,0xdf
         .equ    MAX,50  # character buffer limit
@@ -14,8 +16,12 @@
         .align 8
 prompt:
         .string	"Enter up to 50 alphabetic characters: "
-message:
+upperMsg:
         .string	"All upper: "
+lowerMsg:
+        .string	"All lower: "
+origMsg:
+        .string	"Original: "
 newLine:
         .string	"\n"
 # Code
@@ -36,14 +42,31 @@ main:
         lea     rdi, myString[rbp]  # place to store input
         call    readLn
 
-        lea     rsi, myString[rbp]  # destination string
+        lea     rsi, upperCase[rbp] # destination string
         lea     rdi, myString[rbp]  # source string
         call    toUpper
         
-        lea     rdi, message[rip]   # tell user
+        lea     rsi, lowerCase[rbp] # destination string
+        lea     rdi, myString[rbp]  # source string
+        call    toLower
+        
+        lea     rdi, upperMsg[rip]  # tell user
+        call    writeStr
+        lea     rdi, upperCase[rbp] # result
+        call    writeStr
+        lea     rdi, newLine[rip]   # some formatting
         call    writeStr
 
-        lea     rdi, myString[rbp]  # result
+        lea     rdi, lowerMsg[rip]  # tell user
+        call    writeStr
+        lea     rdi, lowerCase[rbp] # result
+        call    writeStr
+        lea     rdi, newLine[rip]   # some formatting
+        call    writeStr
+
+        lea     rdi, origMsg[rip]   # tell user
+        call    writeStr
+        lea     rdi, myString[rbp]
         call    writeStr
         lea     rdi, newLine[rip]   # some formatting
         call    writeStr
