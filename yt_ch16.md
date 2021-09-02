@@ -6,7 +6,7 @@ title: Chapter 16
 ## Chapter 16
 
 ### Page 3xx
-1.  My first thought was that I only needed to change `upperMask` to `lowerMask` with the proper bit pattern and then change the `and     al, upperMask` instruction to `and     al, upperMask` in order to change the `toUpper` function to give me the `toLower` function. If you tried this, what happened? I got a segmentation fault. What caused this problem? Hint: running under `gdb`, set a breakpoint at the `cmp     al, NUL` instruction in the `toLower` function and test the program with just one or two input characters. Here's how I modified the algorithm for the `toLower` function.
+1. My first thought was that I only needed to change `upperMask` to `lowerMask` with the proper bit pattern and then change the `and     al, upperMask` instruction to `and     al, upperMask` in order to change the `toUpper` function to give me the `toLower` function. If you tried this, what happened? I got a segmentation fault. What caused this problem? Hint: running under `gdb`, set a breakpoint at the `cmp     al, NUL` instruction in the `toLower` function and test the program with just one or two input characters. Here's how I modified the algorithm for the `toLower` function.
    
     ```asm
     # toLower.s
