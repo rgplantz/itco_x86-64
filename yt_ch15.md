@@ -124,7 +124,7 @@ title: Chapter 15
             ret
     ```
 
-2.  z
+2.  Inline assembly.
 
     ```c
     /* sumUInts.c
