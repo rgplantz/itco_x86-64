@@ -308,6 +308,7 @@ title: Chapter 16
 
 ### Page 351
 1. 
+
     ```c
     /* convertHex.c
      * Gets hex number from user and stores it as int.
