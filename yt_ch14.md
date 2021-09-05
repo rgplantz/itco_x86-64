@@ -411,6 +411,7 @@ title: Chapter 14
 
 ### Page 318
 1.  Counting number of times `addConst` is called.
+
     ```asm
     # varLife.s
     # Compares scope and lifetime of automatic, static, and global variables.
