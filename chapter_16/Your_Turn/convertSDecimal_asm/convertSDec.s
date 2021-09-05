@@ -40,7 +40,7 @@ main:
         lea     rsi, myString[rbp]  # echo user input
         lea     rdi, format[rip]    # printf format string
         mov     eax, 0
-        call	printf
+        call	  printf
         
         mov     eax, 0      # return 0;
         mov     rcx, qword ptr canary[rbp]
