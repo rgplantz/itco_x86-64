@@ -52,14 +52,14 @@ title: Chapter 14
             add     rsp, localSize  # for local var.
             
             mov     dword ptr a[rbp], 1 # initialize values
-            mov	dword ptr b[rbp], 2 #     etc...
+            mov	    dword ptr b[rbp], 2 #     etc...
             mov     dword ptr c[rbp], 3
-            mov	dword ptr d[rbp], 4
-            mov	dword ptr e[rbp], 5
-            mov	dword ptr f[rbp], 6
-            mov	dword ptr g[rbp], 7
+            mov	    dword ptr d[rbp], 4
+            mov	    dword ptr e[rbp], 5
+            mov	    dword ptr f[rbp], 6
+            mov	    dword ptr g[rbp], 7
             mov     dword ptr h[rbp], 8
-            mov	dword ptr i[rbp], 9
+            mov	    dword ptr i[rbp], 9
 
             add     rsp, argSize    # space for arguments
             mov     eax, i[rbp]     # load i
@@ -67,19 +67,19 @@ title: Chapter 14
             mov     eax, h[rbp]     # load h
             mov     eighth[rsp], rax  #   8th argument
             mov     eax, g[rbp]     # load g
-            mov	seventh[rsp], rax #   7th argument
+            mov	    seventh[rsp], rax #   7th argument
             mov     eax, f[rbp]     # load f
             mov     sixth[rsp], rax #   6th argument
             mov     eax, e[rbp]     # load e
             mov     fifth[rsp], rax #   5th argument
             mov     eax, d[rbp]     # load d
-            mov	fourth[rsp], rax  #   4th argument
+            mov	    fourth[rsp], rax  #   4th argument
             mov     eax, c[rbp]     # load c
             mov     third[rsp], rax   #   3rd argument
             mov     eax, b[rbp]     # load b
             mov     second[rsp], rax  #   2nd argument
             mov     eax, a[rbp]     # load a
-            mov	first[rsp], rax #   1st argument
+            mov	    first[rsp], rax #   1st argument
             call    addNine
             sub     rsp, argSize    # remove arguments
             mov     total[rbp], eax # total = sumNine(...)
@@ -238,7 +238,7 @@ title: Chapter 14
             pop     rbp             # and caller frame pointer
             ret
     ```
-    ```
+
 3.  Don't forget that we need C header files for our `writeStr` and `readLn` assembly language functions so we can call them from C. We'll be using the `writeStr` and `readLn` functions in subsequent programs, so make sure that you get them to work correctly. I have placed the files in a `common` directory on my computer, and I link to them in any project directory that uses them. This avoids having multiple copies that may get out of sync.
 
     ```c
@@ -311,7 +311,7 @@ title: Chapter 14
     writeLoop:
             mov     rax, stringAddr[rbp]    # get current pointer
             cmp     byte ptr [rax], NUL     # at end yet?
-            je     done             # yes, all done
+            je      done             # yes, all done
     
             mov     edx, 1          # no, write one character
             mov     rsi, rax        # points to current char
