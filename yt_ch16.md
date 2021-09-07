@@ -652,3 +652,338 @@ title: Chapter 16
             ret
     ```
 
+### Page 370
+1. I modified the `main` function in Listing 16-23 in the book to test my `intToSDec` function.
+
+    ```asm
+    # intToSDec.s
+    # Converts int to corresponding signed decimal string
+
+    # Calling sequence
+    #       esi <- value of the int
+    #       rdi <- address of string
+    #       call intToSDec
+    #       returns zero
+            .intel_syntax noprefix
+
+    # Code
+            .text
+            .globl	intToSDec
+            .type   intToSDec, @function
+    intToSDec:
+            push    rbp         # save frame pointer
+            mov     rbp, rsp    # set new frame pointer
+
+            cmp     esi, 0      # >= 0?
+            jge     positive    # yes, just convert it
+            mov     byte ptr [rdi], '-' # store minus sign
+            inc     rdi         # and move the pointer
+            neg     esi         # negate the number
+    positive:
+            call    intToUDec   # rest is unsigned
+      
+            mov     eax, 0      # return 0;
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # and caller frame pointer
+            ret
+    ```
+    ```asm
+    # sAdd123.s
+    # Adds 123 to an int.
+            .intel_syntax noprefix
+    # Stack frame
+            .equ    myString,-32
+            .equ    myInt, -12
+            .equ    canary,-8
+            .equ    localSize,-32
+    # Useful constants
+            .equ    MAX,12      # character buffer limit
+    # Constant data
+            .section	.rodata
+            .align 8
+    prompt:
+            .string	"Enter a signed integer: "
+    message:
+            .string	"The result is: "
+    endl:
+            .string "\n"
+    # Code
+            .text
+            .globl	main
+            .type	main, @function
+    main:
+            push    rbp         # save frame pointer
+            mov     rbp, rsp    # set new frame pointer
+            add     rsp, localSize  # for local var.
+            mov     rax, qword ptr fs:40    # get canary
+            mov     qword ptr canary[rbp], rax
+
+            lea     rdi, prompt[rip]    # prompt user
+            call    writeStr
+            
+            mov     esi, MAX    # get user input
+            lea     rdi, myString[rbp]
+            call    readLn
+
+            lea     rsi, myInt[rbp]     # for result
+            lea     rdi, myString[rbp]  # convert to int
+            call    decToSInt
+
+            mov     eax, dword ptr myInt[rbp]
+            add     eax, 123
+            mov     dword ptr myInt[rbp], eax
+
+            mov     esi, myInt[rbp]     # the number
+            lea     rdi, myString[rbp]  # place for string
+            call    intToSDec
+            
+            lea     rdi, message[rip]   # message for user
+            call    writeStr
+            
+            lea     rdi, myString[rbp]  # number in text
+            call    writeStr
+            
+            lea     rdi, endl[rip]
+            call    writeStr
+
+            mov     eax, 0      # return 0;
+            mov     rcx, qword ptr canary[rbp]
+            xor     rcx, qword ptr fs:40
+            je      allOK
+            call    __stack_chk_fail@plt
+    allOK:
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # and caller frame pointer
+            ret
+    ```
+
+2. To test the `putInt` and `getInt` functions, I wrote a `main` function that adds 345 to the integer input by the user. Notice that `putInt` calls `intToSDec`, which in turn calls `intToUDec`, so you have to include these function in your linking command. Likewise, you need to also include `decToSInt` and `decToUInt` for `getInt` in your linking.
+
+    ```asm
+    # putInt.s
+    # writes a signed int to standard out
+
+    # Calling sequence
+    #       edi <- value of the int
+    #       call putInt
+            .intel_syntax noprefix
+
+    # Stack frame
+            .equ    canary,-8
+            .equ    buffer,-20
+            .equ    localSize,-32
+    # Code
+            .text
+            .globl  putInt
+            .type   putInt, @function
+    putInt:
+            push    rbp             # save frame pointer
+            mov     rbp, rsp        # set new frame pointer
+            add     rsp, localSize  # for local var.
+            mov     rax, fs:40      # get canary
+            mov     canary[rbp], rax  #   and save
+
+            mov     esi, edi        # number to convert
+            lea     rdi, buffer[rbp]  # place to store string
+            call    intToSDec   # do the conversion to string
+            
+            lea     rdi, buffer[rbp]  # place where string stored
+            call    writeStr    # write it
+            
+            mov     eax, 0
+            mov     rsi, canary[rbp]
+            xor     rsi, fs:40
+            je      stackGood
+            call    __stack_chk_fail@plt
+    stackGood:
+            mov     rsp, rbp        # restore stack pointer
+            pop     rbp             # and caller frame pointer
+            ret
+    ```
+    ```asm
+    # getInt.s
+    # reads an int from standard in
+
+    # Calling sequence
+    #       rdi <- pointer where to store the int
+    #       call getInt
+    #       returns 0
+            .intel_syntax noprefix
+
+    # Useful contant
+            .equ    MAX, 12  # includes NUL char and sign
+    # Stack frame
+            .equ    canary,-8
+            .equ    outPtr,-16
+            .equ    buffer,-32
+            .equ    localSize,-32
+    # Code
+            .text
+            .globl  getInt
+            .type   getInt, @function
+    getInt:
+            push    rbp             # save frame pointer
+            mov     rbp, rsp        # set new frame pointer
+            add     rsp, localSize  # for local var.
+            mov     rax, fs:40      # get canary
+            mov     canary[rbp], rax  #   and save
+            
+            mov     outPtr[rbp], rdi    # save argument
+
+            mov     esi, MAX    # max number of chars
+            lea     rdi, buffer[rbp]    # place where string stored
+            call    readLn  # read it
+            
+            mov     rsi, outPtr[rbp]    # place to store number
+            lea     rdi, buffer[rbp]    # address of string
+            call    decToSInt   # convert string to int
+            
+            mov     eax, 0
+            mov     rsi, canary[rbp]
+            xor     rsi, fs:40
+            je      stackGood
+            call    __stack_chk_fail@plt
+    stackGood:
+            mov     rsp, rbp        # restore stack pointer
+            pop     rbp             # and caller frame pointer
+            ret
+    ```
+    ```asm
+    # add345.s
+    # Adds 345 to integer input by user.
+            .intel_syntax noprefix
+
+    # Stack frame
+    #   local vars (rbp)
+            .equ    myInt,-4
+            .equ    localSize,-16
+    # Read only data
+            .section  .rodata
+    prompt:
+            .string "Enter an integer: "
+    newLine:
+            .string "\n"
+    # Code
+            .text
+            .globl  main
+            .type   main, @function
+    main:
+            push    rbp             # save frame pointer
+            mov     rbp, rsp        # set new frame pointer
+            add     rsp, localSize  # for local var.
+            
+            lea     rdi, prompt[rip]    # prompt user
+            call    writeStr
+            
+            lea     rdi, myInt[rbp]
+            call    getInt
+            
+            mov     edi, myInt[rbp]
+            add     edi, 345
+            call    putInt
+            
+            lea     rdi, newLine[rip]   # some formatting
+            call    writeStr
+
+            mov     eax, 0
+            mov     rsp, rbp        # restore stack pointer
+            pop     rbp             # and caller frame pointer
+            ret
+    ```
+
+3. The `main` function in this program uses the `putInt` and 'getInt` functions that we wrote in the previous exercise.
+
+    ```asm
+    # fourFunctions.s
+    # Gets two integers, adds, subtracts, mutliplies
+    # and divides them.
+            .intel_syntax noprefix
+
+    # Stack frame
+    #   local vars (rbp)
+            .equ    xInt,-4
+            .equ    yInt,-8
+            .equ    rem,-12
+            .equ    localSize,-16
+    # Read only data
+            .section  .rodata
+    prompt:
+            .string "Enter an integer: "
+    sum:
+            .string "Sum = "
+    diff:
+            .string "Difference = "
+    prod:
+            .string "Product = "
+    quot:
+            .string "Quotient = "
+    remain:
+            .string " with Remainder = "
+    newLine:
+            .string "\n"
+    # Code
+            .text
+            .globl  main
+            .type   main, @function
+    main:
+            push    rbp             # save frame pointer
+            mov     rbp, rsp        # set new frame pointer
+            add     rsp, localSize  # for local var.
+            
+            lea     rdi, prompt[rip]    # first integer
+            call    writeStr
+            
+            lea     rdi, xInt[rbp]
+            call    getInt
+            
+            lea     rdi, prompt[rip]    # second integer
+            call    writeStr
+            
+            lea     rdi, yInt[rbp]
+            call    getInt
+            
+            lea     rdi, sum[rip]       # prompt user
+            call    writeStr        
+            mov     edi, xInt[rbp]
+            add     edi, yInt[rbp]
+            call    putInt        
+            lea     rdi, newLine[rip]   # some formatting
+            call    writeStr
+
+            lea     rdi, diff[rip]    # prompt user
+            call    writeStr        
+            mov     edi, xInt[rbp]
+            sub     edi, yInt[rbp]
+            call    putInt        
+            lea     rdi, newLine[rip]   # some formatting
+            call    writeStr
+
+            lea     rdi, prod[rip]    # prompt user
+            call    writeStr        
+            mov     edi, xInt[rbp]
+            imul    edi, yInt[rbp]
+            call    putInt        
+            lea     rdi, newLine[rip]   # some formatting
+            call    writeStr
+
+            lea     rdi, quot[rip]    # prompt user
+            call    writeStr  
+            mov     edx, 0      
+            mov     eax, xInt[rbp]
+            idiv    dword ptr yInt[rbp]
+            mov     rem[rbp], edx
+            mov     edi, eax
+            call    putInt        
+
+            lea     rdi, remain[rip]    # prompt user
+            call    writeStr        
+            mov     edi, rem[rbp]
+            call    putInt        
+            lea     rdi, newLine[rip]   # some formatting
+            call    writeStr
+
+            mov     eax, 0
+            mov     rsp, rbp        # restore stack pointer
+            pop     rbp             # and caller frame pointer
+            ret
+    ```
