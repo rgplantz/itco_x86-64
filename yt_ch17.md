@@ -85,10 +85,10 @@ title: Chapter 17
     ```asm
             mov     QWORD PTR -16[rbp], rdx ## 8 bytes of record
             mov     DWORD PTR -8[rbp], eax  ## another 4 bytes
-            movzx   eax, BYTE PTR -8[rbp]   ## load aChar
+            movzx   eax, BYTE PTR -8[rbp]   ## load anotherChar
             movsx   ecx, al                 ## extend to 32 bits
             mov     edx, DWORD PTR -12[rbp] ## load anInt
-            movzx   eax, BYTE PTR -16[rbp]  ## load anotherChar
+            movzx   eax, BYTE PTR -16[rbp]  ## load aChar
             movsx   eax, al                 ## extend to 32 bits
     ```
 
@@ -96,34 +96,94 @@ title: Chapter 17
 
     ```asm
             mov     QWORD PTR -8[rbp], rdi  ## 8 bytes of record
-            movzx   eax, BYTE PTR -7[rbp]   ## load aChar
+            movzx   eax, BYTE PTR -7[rbp]   ## load anotherChar
             movsx   ecx, al                 ## extend to 32 bits
             mov     edx, DWORD PTR -4[rbp]  ## load anInt
-            movzx   eax, BYTE PTR -8[rbp]   ## load anotherChar
+            movzx   eax, BYTE PTR -8[rbp]   ## load aChar
             movsx   eax, al                 ## extend to 32 bits
     ```
 
    We can verify the placement of the value in the record using `gdb`:
 
     ```
-    (gdb) 
-    21	  return 0;
-    22	}
-    23	
-    24	
-    (gdb) b 18
-    Breakpoint 1 at 0x11ba: file records.c, line 18.
+    (gdb) l displayRecord
+    4	
+    5	#include <stdio.h>
+    6	#include "displayRecord.h"
+    7	
+    8	void displayRecord(struct aTag aRecord)
+    9	{
+    10	  printf("%c, %i, %c\n", aRecord.aChar,
+    11	         aRecord.anInt, aRecord.anotherChar);
+    12	}
+    13	
+    (gdb) b 10
+    Breakpoint 1 at 0x1240: file displayRecord.c, line 10.
     (gdb) r
     Starting program: /home/bob/chapter_17/Your_Turn/recordPassAdj_C/records 
 
-    Breakpoint 1, main () at records.c:18
-    18	  displayRecord(x);
+    Breakpoint 1, displayRecord (aRecord=...) at displayRecord.c:10
+    10	  printf("%c, %i, %c\n", aRecord.aChar,
     (gdb) i r rbp
-    rbp            0x7fffffffde90      0x7fffffffde90
-    (gdb) x/16xb 0x7fffffffde78
-    0x7fffffffde78:	0x61	0x62	0x55	0x55	0x7b	0x00	0x00	0x00
-    0x7fffffffde80:	0x31	0x32	0xff	0xff	0xc8	0x01	0x00	0x00
+    rbp            0x7fffffffde60      0x7fffffffde60
+    (gdb) x/8xb 0x7fffffffde58
+    0x7fffffffde58:	0x61	0x62	0x55	0x55	0x7b	0x00	0x00	0x00
+    ```
+
+   Here we see `aChar` at location `0x7fffffffde58`, `anotherChar` at `0x7fffffffde59`, and `anInt` at `0x7fffffffde5c` (in little endian order). The two bytes at `0x7fffffffde5a` and `0x7fffffffde5b` are garbage values.
+
+    ```
+    (gdb) c
+    Continuing.
+    a, 123, b
+
+    Breakpoint 1, displayRecord (aRecord=...) at displayRecord.c:10
+    10	  printf("%c, %i, %c\n", aRecord.aChar,
+    (gdb) x/8xb 0x7fffffffde58
+    0x7fffffffde58:	0x31	0x32	0xff	0xff	0xc8	0x01	0x00	0x00
+    (gdb) c
+    Continuing.
+    1, 456, 2
+    [Inferior 1 (process 3155) exited normally]
     (gdb) 
     ```
 
-   In the memory display, we can see that 
+   And when `displayRecord` is called with `y`, we see its values stored at the same locations.
+
+2. When we pass by pointer, `displayRecord` loads the data from the calling function's copy of the record rather than make its own copy. As usual, I've added my own comments (##) to the compiler's assembly language to explain things.
+
+    ```asm
+            .file   "displayRecord.c"
+            .intel_syntax noprefix
+            .text
+            .section        .rodata
+    .LC0:
+            .string "%c, %i, %c\n"
+            .text
+            .globl  displayRecord
+            .type   displayRecord, @function
+    displayRecord:
+            push    rbp
+            mov     rbp, rsp
+            sub     rsp, 16
+            mov     QWORD PTR -8[rbp], rdi  ## save address of record
+            mov     rax, QWORD PTR -8[rbp]  ## load address of record
+            movzx   eax, BYTE PTR 8[rax]    ## load anotherChar
+            movsx   ecx, al                 ## extend to 32 bits
+            mov     rax, QWORD PTR -8[rbp]  ## load address of record
+            mov     edx, DWORD PTR 4[rax]   ## load anInt
+            mov     rax, QWORD PTR -8[rbp]  ## load address of record
+            movzx   eax, BYTE PTR [rax]     ## load aChar
+            movsx   eax, al                 ## extend to 32 bits
+            mov     esi, eax
+            lea     rdi, .LC0[rip]
+            mov     eax, 0
+            call    printf@PLT
+            nop
+            leave
+            ret
+            .size   displayRecord, .-displayRecord
+            .ident  "GCC: (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0"
+            .section        .note.GNU-stack,"",@progbits
+    ```
+
