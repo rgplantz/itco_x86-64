@@ -6,7 +6,7 @@ title: Chapter 18
 ## Chapter 18
 
 ### Page 405
-1. We first add the prototype for our second constructor.
+1. We first add the prototype for our second constructor to our class.
  
     ```cpp
     // fraction.hpp
@@ -33,6 +33,7 @@ title: Chapter 18
     };
     #endif
     ```
+   Then we define the new constructor.
 
     ```cpp
     ```
@@ -110,111 +111,166 @@ title: Chapter 18
     ```
 
 
-### Page 393
-1. The effects of this change are easiest to see in the `displayRecord` function. The version in Listing 17-18 copies the twelve bytes that make up the record that is passed to it by value (my comments follow ##):
+### Page 407
+1. First, we remove the constructor and destructor from our class declaration.
 
-    ```asm
-            mov     QWORD PTR -16[rbp], rdx ## 8 bytes of record
-            mov     DWORD PTR -8[rbp], eax  ## another 4 bytes
-            movzx   eax, BYTE PTR -8[rbp]   ## load anotherChar
-            movsx   ecx, al                 ## extend to 32 bits
-            mov     edx, DWORD PTR -12[rbp] ## load anInt
-            movzx   eax, BYTE PTR -16[rbp]  ## load aChar
-            movsx   eax, al                 ## extend to 32 bits
+    ```cpp
+    // fraction.hpp
+    // simple fraction class
+
+    #ifndef FRACTION_HPP
+    #define FRACTION_HPP
+    // Uses the following C functions
+    extern "C" int writeStr(char *);
+    extern "C" int getInt(int *);
+    extern "C" int putInt(int);
+
+    class fraction
+    {
+        int num;               // numerator
+        int den;               // denominator
+      public:
+        void get();               // gets user's values
+        void display();           // displays fraction
+        void add(int theValue);   // adds integer
+    };
+    #endif
     ```
 
-   But placing the two `char` elements adjacent to each other reduces the size of the record from twelve to eight bytes:
+   And we remove their defintions.
 
-    ```asm
-            mov     QWORD PTR -8[rbp], rdi  ## 8 bytes of record
-            movzx   eax, BYTE PTR -7[rbp]   ## load anotherChar
-            movsx   ecx, al                 ## extend to 32 bits
-            mov     edx, DWORD PTR -4[rbp]  ## load anInt
-            movzx   eax, BYTE PTR -8[rbp]   ## load aChar
-            movsx   eax, al                 ## extend to 32 bits
+    ```cpp
+    // fraction.cpp
+    // Simple fraction class
+
+    #include "fraction.hpp"
+    // Use char arrays because writeStr is C function.
+    char numMsg[] = "Enter numerator: ";
+    char denMsg[] = "Enter denominator: ";
+    char over[] = "/";
+    char endl[] = "\n";
+
+    void fraction::get()
+    {
+      writeStr(numMsg);   
+      getInt(&num);
+      
+      writeStr(denMsg);
+      getInt(&den);
+    }
+
+    void fraction::display()
+    {
+      putInt(num);
+      writeStr(over);
+      putInt(den);
+      writeStr(endl);
+    }
+
+    void fraction::add(int theValue)
+    {
+      num += theValue * den;
+    }
     ```
 
-   We can verify the placement of the value in the record using `gdb`:
+   When I ran this program, I got garbage values for the fraction before entering my own valued. Looking at the compiler-generated assembly language, we see that it allocates memory on the stack for the object but never initializes it.
 
     ```
-    (gdb) l displayRecord
-    4	
-    5	#include <stdio.h>
-    6	#include "displayRecord.h"
-    7	
-    8	void displayRecord(struct aTag aRecord)
-    9	{
-    10	  printf("%c, %i, %c\n", aRecord.aChar,
-    11	         aRecord.anInt, aRecord.anotherChar);
-    12	}
-    13	
-    (gdb) b 10
-    Breakpoint 1 at 0x1240: file displayRecord.c, line 10.
-    (gdb) r
-    Starting program: /home/bob/chapter_17/Your_Turn/recordPassAdj_C/records 
-
-    Breakpoint 1, displayRecord (aRecord=...) at displayRecord.c:10
-    10	  printf("%c, %i, %c\n", aRecord.aChar,
-    (gdb) i r rbp
-    rbp            0x7fffffffde60      0x7fffffffde60
-    (gdb) x/8xb 0x7fffffffde58
-    0x7fffffffde58:	0x61	0x62	0x55	0x55	0x7b	0x00	0x00	0x00
-    ```
-
-   Here we see `aChar` at location `0x7fffffffde58`, `anotherChar` at `0x7fffffffde59`, and `anInt` at `0x7fffffffde5c` (in little endian order). The two bytes at `0x7fffffffde5a` and `0x7fffffffde5b` are garbage values.
-
-    ```
-    (gdb) c
-    Continuing.
-    a, 123, b
-
-    Breakpoint 1, displayRecord (aRecord=...) at displayRecord.c:10
-    10	  printf("%c, %i, %c\n", aRecord.aChar,
-    (gdb) x/8xb 0x7fffffffde58
-    0x7fffffffde58:	0x31	0x32	0xff	0xff	0xc8	0x01	0x00	0x00
-    (gdb) c
-    Continuing.
-    1, 456, 2
-    [Inferior 1 (process 3155) exited normally]
-    (gdb) 
-    ```
-
-   And when `displayRecord` is called with `y`, we see its values stored at the same locations.
-
-2. When we pass by pointer, `displayRecord` loads the data from the calling function's copy of the record rather than make its own copy. As usual, I've added my own comments (##) to the compiler's assembly language to explain things.
-
-    ```asm
-            .file   "displayRecord.c"
+            .file   "incFraction.cpp"
             .intel_syntax noprefix
             .text
-            .section        .rodata
-    .LC0:
-            .string "%c, %i, %c\n"
-            .text
-            .globl  displayRecord
-            .type   displayRecord, @function
-    displayRecord:
+            .globl  main
+            .type   main, @function
+    main:
             push    rbp
             mov     rbp, rsp
-            sub     rsp, 16
-            mov     QWORD PTR -8[rbp], rdi  ## save address of record
-            mov     rax, QWORD PTR -8[rbp]  ## load address of record
-            movzx   eax, BYTE PTR 8[rax]    ## load anotherChar
-            movsx   ecx, al                 ## extend to 32 bits
-            mov     rax, QWORD PTR -8[rbp]  ## load address of record
-            mov     edx, DWORD PTR 4[rax]   ## load anInt
-            mov     rax, QWORD PTR -8[rbp]  ## load address of record
-            movzx   eax, BYTE PTR [rax]     ## load aChar
-            movsx   eax, al                 ## extend to 32 bits
-            mov     esi, eax
-            lea     rdi, .LC0[rip]
+            sub     rsp, 16                 ## memory for the object and the stack canary
+            mov     rax, QWORD PTR fs:40
+            mov     QWORD PTR -8[rbp], rax  ## address of the stack canary
+            xor     eax, eax
+            lea     rax, -16[rbp]           ## address of the object
+            mov     rdi, rax
+            call    _ZN8fraction7displayEv@PLT
+            lea     rax, -16[rbp]
+            mov     rdi, rax
+            call    _ZN8fraction3getEv@PLT
+            lea     rax, -16[rbp]
+            mov     esi, 1
+            mov     rdi, rax
+            call    _ZN8fraction3addEi@PLT
+            lea     rax, -16[rbp]
+            mov     rdi, rax
+            call    _ZN8fraction7displayEv@PLT
             mov     eax, 0
-            call    printf@PLT
-            nop
+            mov     rdx, QWORD PTR -8[rbp]
+            xor     rdx, QWORD PTR fs:40
+            je      .L3
+            call    __stack_chk_fail@PLT
+    .L3:
             leave
             ret
-            .size   displayRecord, .-displayRecord
+            .size   main, .-main
             .ident  "GCC: (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0"
             .section        .note.GNU-stack,"",@progbits
+    ```
+
+### Page 412
+1. This is a display issue, so the only member function that needs to be changed is `fraction_display`.
+
+    ```asm
+      # fraction_display.s
+      # Displays fraction
+      # Calling sequence:
+      #   rdi <- address of object
+              .intel_syntax noprefix
+              .include    "fraction"
+      # Text for fraction_display
+              .data
+      over:
+              .string "/"
+      ampersand:
+              .string " & "
+      endl:
+              .string "\n"
+      # Stack frame
+              .equ    this,-16
+              .equ    rem,-8
+              .equ    localSize,-16
+      # Code
+              .text
+              .globl  fraction_display
+              .type   fraction_display, @function
+      fraction_display:
+              push    rbp         # save frame pointer
+              mov     rbp, rsp    # set new frame pointer
+              add     rsp, localSize  # for local var.
+              mov     this[rbp], rdi  # this pointer
+
+              mov     r11, this[rbp]  # load this pointer
+              mov     eax, num[r11]   # numerator
+              mov     edx, 0          # zero high-order
+              div     dword ptr den[r11]
+              mov     rem[rbp], edx   # save remainder
+              mov     edi, eax        # print quotient
+              call    putInt
+
+              lea     rdi, ampersand[rip]  # and
+              call    writeStr
+              
+              mov     edi, rem[rbp]   # remainder
+              call    putInt
+              lea     rdi, over[rip]  # slash
+              call    writeStr
+
+              mov     r11, this[rbp]  # load this pointer
+              mov     edi, den[r11]
+              call    putInt
+              
+              lea     rdi, endl[rip]  # newline
+              call    writeStr
+
+              mov     rsp, rbp    # restore stack pointer
+              pop     rbp         # and caller frame pointer
+              ret
     ```
 
