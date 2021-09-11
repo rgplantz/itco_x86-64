@@ -36,7 +36,6 @@ title: Chapter 18
    Then we define the new constructor.
 
     ```cpp
-    ```
     // fraction.cpp
     // Simple fraction class
 
