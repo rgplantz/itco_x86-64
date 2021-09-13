@@ -188,19 +188,198 @@ title: Chapter 19
     Total = $0.0
     ```
 
-   We can explore the limit:
+   We can see that the scaled sum, 4294967296, exceeds 32 bits, causing the value to wrap around. Let's explore the limit:
 
     ```
-Enter amount
-    Dollars: 429495672
-      Cents: 94
-Enter amount
-    Dollars: 0
-      Cents: 1
-Total = $42948616.31
+    Enter amount
+        Dollars: 42949672
+          Cents: 94
+    Enter amount
+        Dollars: 0
+          Cents: 1
+    Total = $42949672.95
     ```
 
-### Page 407
+   Now the scaled sum, 4294967295, fits within 32 bits.
+
+3. This is a little tricky. I used my signed `getInt` function to read the input numbers. But I found it easier to use my unsigned `putUInt` function to display the numbers and deal with the sign in a `displaySMoney` function because I didn't want to display a negative amount like $-123.-45. My solution would display this like -$123.45, which I think you'll agree is much better.
+
+    ```asm
+    # moneySAdd.s
+    # Adds two money amounts in dollars and cents.
+            .intel_syntax noprefix
+    # Stack frame
+            .equ    x,-16
+            .equ    y, -12
+            .equ    canary,-8
+            .equ    localSize,-16
+    # Constant data
+            .section	.rodata
+            .align 8
+    endl:
+            .string "\n"
+    # Code
+            .text
+            .globl	main
+            .type	main, @function
+    main:
+            push    rbp         # save frame pointer
+            mov     rbp, rsp    # set new frame pointer
+            add     rsp, localSize  # for local var.
+            mov     rax, qword ptr fs:40    # get canary
+            mov     qword ptr canary[rbp], rax
+
+            lea     rdi, x[rbp] # x amount
+            call    getSMoney
+            
+            lea     rdi, y[rbp] # y amount
+            call    getSMoney
+
+            mov     edi, x[rbp] # retrieve x amount
+            add     edi, y[rbp] # add y amount
+            call    displaySMoney
+
+            mov     eax, 0      # return 0;
+            mov     rcx, qword ptr canary[rbp]
+            xor     rcx, qword ptr fs:40
+            je      allOK
+            call    __stack_chk_fail@plt
+    allOK:
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # and caller frame pointer
+            ret
+    ```
+    ```asm
+    # getSMoney.s
+    # Gets money in dollars and cents.
+    # Outputs 32-bit value, money in cents.
+    # Calling sequence:
+    #   rdi <- pointer to length
+            .intel_syntax noprefix
+    # Useful constant
+            .equ    dollar2cents, 100
+    # Stack frame
+            .equ    moneyPtr,-16
+            .equ    dollars,-8
+            .equ    cents,-4
+            .equ    localSize,-16
+    # Constant data
+            .section	.rodata
+            .align 8
+    prompt:
+            .string "Enter amount\n"
+    dollarsPrompt:
+            .string "    Dollars: "
+    centsPrompt:
+            .string "      Cents: "
+    # Code
+            .text
+            .globl  getSMoney
+            .type   getSMoney, @function
+    getSMoney:
+            push    rbp         # save frame pointer
+            mov     rbp, rsp    # set new frame pointer
+            add     rsp, localSize  # for local var.
+            
+            mov     moneyPtr[rbp], rdi  # save pointer to output
+
+            lea     rdi, prompt[rip]    # prompt user
+            call    writeStr
+
+            lea     rdi, dollarsPrompt[rip] # ask for dollars
+            call    writeStr
+            lea     rdi, dollars[rbp]   # get dollars
+            call    getInt
+            lea     rdi, centsPrompt[rip] # ask for cents
+            call    writeStr
+            lea     rdi, cents[rbp]     # get cents
+            call    getInt
+            
+            mov     eax, dword ptr dollars[rbp] # retrieve dollars
+            mov     ecx, dollar2cents   # scale dollars
+            mul     ecx                 #          to cents
+            mov     ecx, dword ptr cents[rbp]   # retrieve cents
+            add     eax, ecx            # add in cents
+            mov     rcx, moneyPtr[rbp]  # load pointer to output
+            mov     [rcx], eax  # output
+
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # and caller frame pointer
+            ret
+    ```
+    ```asm
+    # displaySMoney.s
+    # Displays money in dollars and cents, signed.
+    # Calling sequence:
+    #   edi <- money in cents
+            .intel_syntax noprefix
+    # Useful constant
+            .equ    cent2dollars, 100
+    # Stack frame
+            .equ    money,-16
+            .equ    localSize,-16
+    # Constant data
+            .section	.rodata
+            .align 8
+    decimal:
+            .string "."
+    zero:
+            .string "0"
+    msg:
+            .string "Total = $"
+    msgNeg:
+            .string "Total = -$"
+    endl:
+            .string "\n"
+    # Code
+            .text
+            .globl  displaySMoney
+            .type   displaySMoney, @function
+    displaySMoney:
+            push    rbp         # save frame pointer
+            mov     rbp, rsp    # set new frame pointer
+            add     rsp, localSize  # for local var.
+            
+            mov     money[rbp], edi # save input money
+            cmp     dword ptr money[rbp], 0 # negative?
+            jge     positive        # no
+            lea     rdi, msgNeg[rip]      # yes, print minus sign
+            call    writeStr
+            neg     dword ptr money[rbp]  # work with positive
+            jmp     showNumbers
+    positive:
+            lea     rdi, msg[rip]   # nice message
+            call    writeStr
+    showNumbers:        
+            mov     edx, 0      # clear high order
+            mov     eax, money[rbp]   # convert money amount
+            mov     ecx, cent2dollars #     to dollars and cents
+            div     ecx
+            mov     money[rbp], edx # save cents
+
+            mov     edi, eax    # dollars
+            call    putUInt     # write to screen
+
+            lea     rdi, decimal[rip] # decimal point
+            call    writeStr
+            
+            cmp     dword ptr money[rbp], 10  # 2 decimal places?
+            jae     twoDecimal      # yes
+            lea     rdi, zero[rip]  # no, 0 in tenths place
+            call    writeStr
+    twoDecimal:
+            mov     edi, money[rbp]    # load cents
+            call    putUInt     # write to screen
+
+            lea     rdi, endl[rip]
+            call    writeStr
+
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # and caller frame pointer
+            ret
+    ```
+
+### Page 432 (435)
 1. First, we remove the constructor and destructor from our class declaration.
 
     ```cpp
