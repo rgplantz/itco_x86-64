@@ -175,7 +175,6 @@ title: Chapter 19
     ```
    
    In this program, we've scaled the dollar values by 100. So when we examine memory where `x` and `y` are stored, we see the integers 1230 (`0x000004cd`) and 4560 (`0x000011d0`) for 12.30 and 45.60, respectively. Note that the integral and fractional parts are not separated by bit boundaries since we're not scaling by a multiple of 2.
-
 3. Limited number of bits.
 
     ```
@@ -202,7 +201,7 @@ title: Chapter 19
 
    Now the scaled sum, 4294967295, fits within 32 bits.
 
-3. This is a little tricky. I used my signed `getInt` function to read the input numbers. But I found it easier to use my unsigned `putUInt` function to display the numbers and deal with the sign in a `displaySMoney` function because I didn't want to display a negative amount like $-123.-45. My solution would display this like -$123.45, which I think you'll agree is much better.
+4. This is a little tricky. I used my signed `getInt` function to read the input numbers. But I found it easier to use my unsigned `putUInt` function to display the numbers and deal with the sign in a `displaySMoney` function because I didn't want to display a negative amount like $-123.-45. My solution would display this like -$123.45, which I think you'll agree is much better.
 
     ```asm
     # moneySAdd.s
@@ -249,6 +248,7 @@ title: Chapter 19
             pop     rbp         # and caller frame pointer
             ret
     ```
+
     ```asm
     # getSMoney.s
     # Gets money in dollars and cents.
@@ -307,6 +307,7 @@ title: Chapter 19
             pop     rbp         # and caller frame pointer
             ret
     ```
+
     ```asm
     # displaySMoney.s
     # Displays money in dollars and cents, signed.
@@ -379,166 +380,343 @@ title: Chapter 19
             ret
     ```
 
-### Page 432 (435)
-1. First, we remove the constructor and destructor from our class declaration.
-
-    ```cpp
-    // fraction.hpp
-    // simple fraction class
-
-    #ifndef FRACTION_HPP
-    #define FRACTION_HPP
-    // Uses the following C functions
-    extern "C" int writeStr(char *);
-    extern "C" int getInt(int *);
-    extern "C" int putInt(int);
-
-    class fraction
-    {
-        int num;               // numerator
-        int den;               // denominator
-      public:
-        void get();               // gets user's values
-        void display();           // displays fraction
-        void add(int theValue);   // adds integer
-    };
-    #endif
-    ```
-
-   And we remove their defintions.
-
-    ```cpp
-    // fraction.cpp
-    // Simple fraction class
-
-    #include "fraction.hpp"
-    // Use char arrays because writeStr is C function.
-    char numMsg[] = "Enter numerator: ";
-    char denMsg[] = "Enter denominator: ";
-    char over[] = "/";
-    char endl[] = "\n";
-
-    void fraction::get()
-    {
-      writeStr(numMsg);   
-      getInt(&num);
-      
-      writeStr(denMsg);
-      getInt(&den);
-    }
-
-    void fraction::display()
-    {
-      putInt(num);
-      writeStr(over);
-      putInt(den);
-      writeStr(endl);
-    }
-
-    void fraction::add(int theValue)
-    {
-      num += theValue * den;
-    }
-    ```
-
-   When I ran this program, I got garbage values for the fraction before entering my own valued. Looking at the compiler-generated assembly language, we see that it allocates memory on the stack for the object but never initializes it.
-
-    ```
-            .file   "incFraction.cpp"
-            .intel_syntax noprefix
-            .text
-            .globl  main
-            .type   main, @function
-    main:
-            push    rbp
-            mov     rbp, rsp
-            sub     rsp, 16                 ## memory for the object and the stack canary
-            mov     rax, QWORD PTR fs:40
-            mov     QWORD PTR -8[rbp], rax  ## address of the stack canary
-            xor     eax, eax
-            lea     rax, -16[rbp]           ## address of the object
-            mov     rdi, rax
-            call    _ZN8fraction7displayEv@PLT
-            lea     rax, -16[rbp]
-            mov     rdi, rax
-            call    _ZN8fraction3getEv@PLT
-            lea     rax, -16[rbp]
-            mov     esi, 1
-            mov     rdi, rax
-            call    _ZN8fraction3addEi@PLT
-            lea     rax, -16[rbp]
-            mov     rdi, rax
-            call    _ZN8fraction7displayEv@PLT
-            mov     eax, 0
-            mov     rdx, QWORD PTR -8[rbp]
-            xor     rdx, QWORD PTR fs:40
-            je      .L3
-            call    __stack_chk_fail@PLT
-    .L3:
-            leave
-            ret
-            .size   main, .-main
-            .ident  "GCC: (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0"
-            .section        .note.GNU-stack,"",@progbits
-    ```
-
-### Page 412
-1. This is a display issue, so the only member function that needs to be changed is `fraction_display`.
+### Page 432
+1. We had to convert from `float` to `double` in the `addFloats` program because `scanf` and `printf` work with `double`s. We won't need to do the conversions in `addDoubles`, which simplifies the computation algorithm.
 
     ```asm
-      # fraction_display.s
-      # Displays fraction
-      # Calling sequence:
-      #   rdi <- address of object
-              .intel_syntax noprefix
-              .include    "fraction"
-      # Text for fraction_display
-              .data
-      over:
-              .string "/"
-      ampersand:
-              .string " & "
-      endl:
-              .string "\n"
-      # Stack frame
-              .equ    this,-16
-              .equ    rem,-8
-              .equ    localSize,-16
-      # Code
-              .text
-              .globl  fraction_display
-              .type   fraction_display, @function
-      fraction_display:
-              push    rbp         # save frame pointer
-              mov     rbp, rsp    # set new frame pointer
-              add     rsp, localSize  # for local var.
-              mov     this[rbp], rdi  # this pointer
+    # addDoubles.s
+    # Adds two doubles.
+            .intel_syntax noprefix
+    # Stack frame
+            .equ    x,-32
+            .equ    y, -24
+            .equ    canary,-8
+            .equ    localSize,-32
+    # Constant data
+            .section	.rodata
+    prompt:
+            .string "Enter a number: "
+    scanFormat:
+            .string "%lf"
+    printFormat:
+            .string "%lf + %lf = %lf\n"
+    # Code
+            .text
+            .globl	main
+            .type	main, @function
+    main:
+            push    rbp         # save frame pointer
+            mov     rbp, rsp    # set new frame pointer
+            add     rsp, localSize  # for local var.
+            mov     rax, qword ptr fs:40    # get canary
+            mov     qword ptr canary[rbp], rax
 
-              mov     r11, this[rbp]  # load this pointer
-              mov     eax, num[r11]   # numerator
-              mov     edx, 0          # zero high-order
-              div     dword ptr den[r11]
-              mov     rem[rbp], edx   # save remainder
-              mov     edi, eax        # print quotient
-              call    putInt
+            lea     rdi, prompt[rip]  # prompt for input
+            mov     eax, 0
+            call    printf@plt
+            lea     rsi, x[rbp]       # read x
+            lea     rdi, scanFormat[rip]
+            mov     eax, 0
+            call    __isoc99_scanf@plt
+            
+            lea     rdi, prompt[rip]  # prompt for input
+            mov     eax, 0
+            call    printf@plt
+            lea     rsi, y[rbp]       # read y
+            lea     rdi, scanFormat[rip]
+            mov     eax, 0
+            call    __isoc99_scanf@plt
+            
+            movsd   xmm0, x[rbp]    # load x
+            movsd   xmm1, y[rbp]    # load y
+            movsd   xmm2, xmm0      # compute
+            addsd   xmm2, xmm1      #     x + y
+            lea     rdi, printFormat[rip]
+            mov     eax, 3          # 3 xmm regs.
+            call    printf@plt
 
-              lea     rdi, ampersand[rip]  # and
-              call    writeStr
-              
-              mov     edi, rem[rbp]   # remainder
-              call    putInt
-              lea     rdi, over[rip]  # slash
-              call    writeStr
+            mov     eax, 0      # return 0;
+            mov     rcx, qword ptr canary[rbp]
+            xor     rcx, qword ptr fs:40
+            je      allOK
+            call    __stack_chk_fail@plt
+    allOK:
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # and caller frame pointer
+            ret
+    ```
 
-              mov     r11, this[rbp]  # load this pointer
-              mov     edi, den[r11]
-              call    putInt
-              
-              lea     rdi, endl[rip]  # newline
-              call    writeStr
+   When I ran this program, it appears that converting to `double` is more accurate:
 
-              mov     rsp, rbp    # restore stack pointer
-              pop     rbp         # and caller frame pointer
-              ret
+    ```
+    Enter a number: 123.4
+    Enter a number: 567.8
+    123.400000 + 567.800000 = 691.200000
+    ```
+
+   However, examining the values in `gdb` shows that the numbers are not exact:
+
+    ```
+    Enter a number: 123.4
+    Enter a number: 567.8
+
+    Breakpoint 1, main () at addDoubles.s:50
+    50	        call    printf@plt
+    (gdb) p $xmm0.v2_double
+    $1 = {123.40000000000001, 0}
+    (gdb) p $xmm1.v2_double
+    $2 = {567.79999999999995, 0}
+    (gdb) p $xmm2.v2_double
+    $3 = {691.19999999999993, 0}
+    (gdb) c
+    Continuing.
+    123.400000 + 567.800000 = 691.200000
+    ```
+
+   `printf` rounds the numbers for display, which makes the results look exact. The errors may not matter in many applications, but they can cause errors in intermediate computations that can be very difficult to debug.
+
+2. An attempt to divide by zero will cause an exception in the CPU, which the operating system will handle. This will be discussed in Chapter 21.
+
+    ```asm
+    # divideFloats.s
+    # Divides float by another.
+            .intel_syntax noprefix
+    # Stack frame
+            .equ    x,-20
+            .equ    y,-16
+            .equ    z,-12
+            .equ    canary,-8
+            .equ    localSize,-32
+    # Constant data
+            .section	.rodata
+    prompt:
+            .string "Enter a number: "
+    scanFormat:
+            .string "%f"
+    printFormat:
+            .string "%f / %f = %f\n"
+    # Code
+            .text
+            .globl	main
+            .type	main, @function
+    main:
+            push    rbp         # save frame pointer
+            mov     rbp, rsp    # set new frame pointer
+            add     rsp, localSize  # for local var.
+            mov     rax, qword ptr fs:40    # get canary
+            mov     qword ptr canary[rbp], rax
+
+            lea     rdi, prompt[rip]  # prompt for input
+            mov     eax, 0
+            call    printf@plt
+            lea     rsi, x[rbp]       # read x
+            lea     rdi, scanFormat[rip]
+            mov     eax, 0
+            call    __isoc99_scanf@plt
+            
+            lea     rdi, prompt[rip]  # prompt for input
+            mov     eax, 0
+            call    printf@plt
+            lea     rsi, y[rbp]       # read y
+            lea     rdi, scanFormat[rip]
+            mov     eax, 0
+            call    __isoc99_scanf@plt
+            
+            movss   xmm2, x[rbp]    # load x
+            divss   xmm2, y[rbp]    # compute
+            movss   z[rbp], xmm2    #     x + y
+            cvtss2sd   xmm0, x[rbp] # convert to double
+            cvtss2sd   xmm1, y[rbp] # convert to double
+            cvtss2sd   xmm2, z[rbp] # convert to double
+            lea     rdi, printFormat[rip]
+            mov     eax, 3          # 3 xmm regs.
+            call    printf@plt
+
+            mov     eax, 0      # return 0;
+            mov     rcx, qword ptr canary[rbp]
+            xor     rcx, qword ptr fs:40
+            je      allOK
+            call    __stack_chk_fail@plt
+    allOK:
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # and caller frame pointer
+            ret
+    ```
+
+   Running this program gave me:
+
+    ```
+    $ ./divideFloats 
+    Enter a number: 123
+    Enter a number: 0
+    123.000000 / 0.000000 = inf
+    ```
+
+   So the operating system gave me a well-controlled response.   
+
+3. We can tell the CPU to use the operating system's generic error handler.
+
+    ```asm
+    # divideFloats.s
+    # Divides float by another.
+            .intel_syntax noprefix
+    # Useful constant
+            .equ    noZM, 0xfffffdff
+    # Stack frame
+            .equ    mxcsrSave,-24
+            .equ    x,-20
+            .equ    y,-16
+            .equ    z,-12
+            .equ    canary,-8
+            .equ    localSize,-32
+    # Constant data
+            .section	.rodata
+    prompt:
+            .string "Enter a number: "
+    scanFormat:
+            .string "%f"
+    printFormat:
+            .string "%f / %f = %f\n"
+    # Code
+            .text
+            .globl	main
+            .type	main, @function
+    main:
+            push    rbp         # save frame pointer
+            mov     rbp, rsp    # set new frame pointer
+            add     rsp, localSize  # for local var.
+            mov     rax, qword ptr fs:40    # get canary
+            mov     qword ptr canary[rbp], rax
+
+            lea     rdi, prompt[rip]  # prompt for input
+            mov     eax, 0
+            call    printf@plt
+            lea     rsi, x[rbp]       # read x
+            lea     rdi, scanFormat[rip]
+            mov     eax, 0
+            call    __isoc99_scanf@plt
+            
+            lea     rdi, prompt[rip]  # prompt for input
+            mov     eax, 0
+            call    printf@plt
+            lea     rsi, y[rbp]       # read y
+            lea     rdi, scanFormat[rip]
+            mov     eax, 0
+            call    __isoc99_scanf@plt
+            
+            stmxcsr mxcsrSave[rbp]
+            and     dword ptr mxcsrSave[rbp], noZM
+            ldmxcsr mxcsrSave[rbp]
+            
+            movss   xmm2, x[rbp]    # load x
+            divss   xmm2, y[rbp]    # compute
+            movss   z[rbp], xmm2    #     x + y
+            cvtss2sd   xmm0, x[rbp] # convert to double
+            cvtss2sd   xmm1, y[rbp] # convert to double
+            cvtss2sd   xmm2, z[rbp] # convert to double
+            lea     rdi, printFormat[rip]
+            mov     eax, 3          # 3 xmm regs.
+            call    printf@plt
+
+            mov     eax, 0      # return 0;
+            mov     rcx, qword ptr canary[rbp]
+            xor     rcx, qword ptr fs:40
+            je      allOK
+            call    __stack_chk_fail@plt
+    allOK:
+            mov     rsp, rbp    # restore stack pointer
+            pop     rbp         # and caller frame pointer
+            ret
+    ```
+
+   Running this program gave me:
+
+    ```
+    $ ./divideFloats 
+    Enter a number: 123
+    Enter a number: 0
+    Floating point exception (core dumped)
+    ```
+
+   The message from the operating system was more generic in this case.   
+
+### Page 439
+1. This exercise further demonstrates the dangers of using floating-point numbers. Everything looks okay in the display, but bugs can lurk in intermediate arithmetic results.
+
+    ```c
+    /* threeDoubles.c
+    * Associativity of doubles.
+    */
+
+    #include <stdio.h>
+    #include <math.h>
+
+    int main()
+    {
+      double x, y, z, sum1, sum2;
+
+      printf("Enter a number: ");
+      scanf("%lf", &x);
+      printf("Enter a number: ");
+      scanf("%lf", &y);
+      printf("Enter a number: ");
+      scanf("%lf", &z);
+      
+      sum1 = x + y;
+      sum1 += z;      /* sum1 = (x + y) + z */
+      sum2 = y + z;
+      sum2 += x;      /* sum2 = x + (y + z) */
+
+      if (sum1 == sum2)
+        printf("%lf is the same as %lf\n", sum1, sum2);
+      else
+        printf("%lf is not the same as %lf\n", sum1, sum2);
+
+      return 0;
+    }
+    ```
+
+   The numbers appear to be associative, but the program says not:
+
+    ```
+    Enter a number: 1.1
+    Enter a number: 1.2
+    Enter a number: 1.3
+    3.600000 is not the same as 3.600000
+    ```
+
+   Looking at the values in `gdb` shows is that it's not associative, but the rounding off done by `printf` makes it look so:
+   
+    ```
+    (gdb) l 20
+    15	  scanf("%lf", &y);
+    16	  printf("Enter a number: ");
+    17	  scanf("%lf", &z);
+    18	  
+    19	  sum1 = x + y;
+    20	  sum1 += z;      /* sum1 = (x + y) + z */
+    21	  sum2 = y + z;
+    22	  sum2 += x;      /* sum2 = x + (y + z) */
+    23	
+    24	  if (sum1 == sum2)
+    (gdb) b 24
+    Breakpoint 1 at 0x126b: file threeDoubles.c, line 24.
+    (gdb) r
+    Starting program: /home/bob/NoStarch/x-86/progs/working/chapter_19/Your_Turn/threeDoubles_C/threeDoubles 
+    Enter a number: 1.1
+    Enter a number: 1.2
+    Enter a number: 1.3
+
+    Breakpoint 1, main () at threeDoubles.c:24
+    24	  if (sum1 == sum2)
+    (gdb) p sum1
+    $1 = 3.5999999999999996
+    (gdb) p sum2
+    $2 = 3.6000000000000001
+    (gdb) c
+    Continuing.
+    3.600000 is not the same as 3.600000
+    [Inferior 1 (process 6631) exited normally]
+    (gdb) 
     ```
 
