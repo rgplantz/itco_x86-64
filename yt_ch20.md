@@ -37,19 +37,16 @@ title: Chapter 20
     ```
 
    The operating system prevents us from accessing I/O directly from a user program.
-2. Limited number of bits.
+2. As with the C version, the operating system prvents us from accessing I/O.
 
     ```
-    Enter amount
-        Dollars: 42949672   
-          Cents: 95
-    Enter amount
-        Dollars: 0
-          Cents: 1
-    Total = $0.0
+    as --gstabs -o UART_functions.o UART_functions.s
+    ld -e myProg -o UART_echo UART_echo.o UART_functions.o
+    $ ./UART_echo 
+    Segmentation fault (core dumped)
     ```
 
-   We can see that the scaled sum, 4294967296, exceeds 32 bits, causing the value to wrap around. Let's explore the limit:
+### Page 463
 
     ```
     Enter amount
