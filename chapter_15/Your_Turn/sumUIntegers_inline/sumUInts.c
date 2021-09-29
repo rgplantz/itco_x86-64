@@ -19,7 +19,7 @@ int main(void)
       "movzx eax, al\n"
       "mov %1, eax\n"
       "mov %0, edi"
-      : "=rm" (z), "=rm" (overflow)
+      : "=rm" (z), "=rm" (carry)
       : "rm" (x), "rm" (y)
       : "rax", "rdx", "cc");
 
