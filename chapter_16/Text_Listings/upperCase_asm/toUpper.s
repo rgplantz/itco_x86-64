@@ -17,26 +17,25 @@
         .globl  toUpper
         .type   toUpper, @function
 toUpper:
-        push    rbp         # save frame pointer
-        mov     rbp, rsp    # set new frame pointer
-        add     rsp, localSize      # for local var.
+        push    rbp                   # save frame pointer
+        mov     rbp, rsp              # set new frame pointer
+        add     rsp, localSize        # for local var.
         
         mov     dword ptr count[rbp], 0
 whileLoop:
-        mov 	  al, byte ptr [rdi]  # char from source
-        and     al, upperMask       # no, make sure it's upper
-        mov     byte ptr [rsi], al  # char to destination
-        cmp     al, NUL     # was it the end?
-        je      allDone     # yes, all done
-        inc     rdi         # increment
-        inc     rsi         #      pointers
-        inc     dword ptr count[rbp]    # and counter
-        jmp     whileLoop   # continue loop
+        mov 	  al, byte ptr [rdi]    # char from source
+        and     al, upperMask         # no, make sure it's upper
+        mov     byte ptr [rsi], al    # char to destination
+        cmp     al, NUL               # was it the end?
+        je      allDone               # yes, all done
+        inc     rdi                   # increment
+        inc     rsi                   #      pointers
+        inc     dword ptr count[rbp]  #      and counter
+        jmp     whileLoop             # continue loop
 allDone:
-        mov     byte ptr [rsi], al  # finish with NUL
-        mov     eax, dword ptr count[rbp]   # return count
+        mov     byte ptr [rsi], al    # finish with NUL
+        mov     eax, dword ptr count[rbp] # return count
 
-        mov     rsp, rbp    # restore stack pointer
-        pop     rbp         # and caller frame pointer
+        mov     rsp, rbp              # restore stack pointer
+        pop     rbp                   # and caller frame pointer
         ret
-

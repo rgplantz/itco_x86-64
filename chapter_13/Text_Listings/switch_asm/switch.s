@@ -14,18 +14,18 @@ threeMsg:
 overMsg:
         .string "i > 3"
 # Jump table
-        .align 8
+        .align  8
 jumpTable:
-        .quad   one     # addresses where messages are
-        .quad   two     #   printed
+        .quad   one         # addresses where messages are
+        .quad   two         #   printed
         .quad   three
         .quad   over
         .quad   over
         .quad   over
         .quad   over
         .quad   over
-        .quad   over    # need an entry for
-        .quad   over    #    each possibility
+        .quad   over        # need an entry for
+        .quad   over        #    each possibility
 # Program code
         .text
         .globl  main
@@ -71,6 +71,5 @@ done:
         pop     r12         # restore regs
         pop     rbx
         mov     rsp, rbp    # restore stack pointer
-        pop     rbp         # restore frame pointer
+        pop     rbp         # and caller frame pointer
         ret
-

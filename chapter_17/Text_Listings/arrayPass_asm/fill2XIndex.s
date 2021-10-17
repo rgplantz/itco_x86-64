@@ -11,29 +11,29 @@
 # Code
         .text
         .globl	main
-        .type	main, @function
+        .type	  main, @function
 main:
-        push    rbp         # save frame pointer
-        mov     rbp, rsp    # set new frame pointer
-        add     rsp, localSize  # for local var.
-        mov     rax, qword ptr fs:40    # get canary
+        push    rbp                   # save frame pointer
+        mov     rbp, rsp              # set new frame pointer
+        add     rsp, localSize        # for local var.
+        mov     rax, qword ptr fs:40  # get canary
         mov     qword ptr canary[rbp], rax
 
-        mov     esi, N      # number of elements
-        lea     rdi, intArray[rbp]   # our array
+        mov     esi, N                # number of elements
+        lea     rdi, intArray[rbp]    # our array
         call    twiceIndex
 
-        mov     esi, N      # number of elements
-        lea     rdi, intArray[rbp]   # our array
+        mov     esi, N                # number of elements
+        lea     rdi, intArray[rbp]    # our array
         call    displayArray
         
-        mov     eax, 0      # return 0;
+        mov     eax, 0                # return 0;
         mov     rcx, qword ptr canary[rbp]
         xor     rcx, qword ptr fs:40
         je      allOK
         call    __stack_chk_fail@plt
 allOK:
-        mov     rsp, rbp    # restore stack pointer
-        pop     rbp         # and caller frame pointer
+        mov     rsp, rbp              # restore stack pointer
+        pop     rbp                   # and caller frame pointer
         ret
 

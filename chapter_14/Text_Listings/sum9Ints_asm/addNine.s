@@ -40,8 +40,7 @@ addNine:
         add     edi, nine[rbp]  # plus nine
         mov     total[rbp], edi # save total
 	
-        mov     eax, total[rbp]  # return total;
-        mov     rsp, rbp    # restore stack pointer
-        pop     rbp         # and caller framee pointer
+        mov     eax, total[rbp] # return total;
+        mov     rsp, rbp        # restore stack pointer
+        pop     rbp             # and caller frame pointer
         ret
-

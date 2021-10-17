@@ -22,41 +22,40 @@ msg:
         .globl  main
         .type   main, @function
 main:
-        push    rbp           # save caller's frame pointer
-        mov     rbp, rsp      # establish our frame pointer
-        add     rsp, localSize # for local variable
+        push    rbp                   # save caller's frame pointer
+        mov     rbp, rsp              # our frame pointer
+        add     rsp, localSize        # for local var.
 
-        mov     rax, fs:40    # get stack canary
-        mov     canary[rbp], rax  # and save it
+        mov     rax, fs:40            # get stack canary
+        mov     canary[rbp], rax      # and save it
 
-        mov     edx, promptSz # prompt size
-        lea     rsi, prompt[rip] # address of prompt text string
-        mov     edi, STDOUT   # standard out
-        call    write@plt     # invoke write function
+        mov     edx, promptSz         # prompt size
+        lea     rsi, prompt[rip]      # address of prompt text string
+        mov     edi, STDOUT           # standard out
+        call    write@plt             # invoke write function
 
-        mov     edx, 1        # 1 character
-        lea     rsi, aLetter[rbp] # place to store character
-        mov     edi, STDIN    # standard in
-        call    read@plt      # invoke read function
+        mov     edx, 1                # 1 character
+        lea     rsi, aLetter[rbp]     # place to store character
+        mov     edi, STDIN            # standard in
+        call    read@plt              # invoke read function
 
-        mov     edx, msgSz    # message size
-        lea     rsi, msg[rip] # address of message text string
-        mov     edi, STDOUT   # standard out
-        call    write@plt     # invoke write function
+        mov     edx, msgSz            # message size
+        lea     rsi, msg[rip]         # address of message text string
+        mov     edi, STDOUT           # standard out
+        call    write@plt             # invoke write function
 
-        mov     edx, 1        # 1 character
-        lea     rsi, aLetter[rbp] # place where character stored
-        mov     edi, STDOUT   # standard out
-        call    write@plt     # invoke write function
+        mov     edx, 1                # 1 character
+        lea     rsi, aLetter[rbp]     # place where character stored
+        mov     edi, STDOUT           # standard out
+        call    write@plt             # invoke write function
 
-        mov     eax, 0        # return 0
+        mov     eax, 0                # return 0
 
-        mov     rcx, canary[rbp]  # retrieve saved canary
-        xor     rcx, fs:40    # and check it
+        mov     rcx, canary[rbp]      # retrieve saved canary
+        xor     rcx, fs:40            # and check it
         je      goodCanary
-        call    __stack_chk_fail@PLT    # bad canary
+        call    __stack_chk_fail@PLT  # bad canary
 goodCanary:
-        mov     rsp, rbp      # delete local variables
-        pop     rbp           # restore caller's frame pointer
-        ret                   # back to calling function
-
+        mov     rsp, rbp              # delete local variables
+        pop     rbp                   # restore caller's frame pointer
+        ret                           # back to calling function

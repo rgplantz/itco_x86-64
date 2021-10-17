@@ -20,7 +20,7 @@ format:
         .string "In main:%12i %8i %8i\n"
 # Define global variable
         .data
-        .align 4
+        .align  4
         .globl  z
         .type   z, @object
 z:
@@ -30,35 +30,35 @@ z:
         .globl  main
         .type   main, @function
 main:
-        push    rbp         # save frame pointer
-        mov     rbp, rsp    # set new frame pointer
-        add     rsp, localSize  # for local var.
+        push    rbp                     # save frame pointer
+        mov     rbp, rsp                # set new frame pointer
+        add     rsp, localSize          # for local var.
 
-        mov     dword ptr x[rbp], INITx  # initialize locals
+        mov     dword ptr x[rbp], INITx # initialize locals
         mov     dword ptr y[rbp], INITy 
 
         lea     rdi, tableHead1[rip]    # print heading
         call    puts@plt
         lea     rdi, tableHead2[rip]
         call    puts@plt
-        mov     ecx, z[rip]   # print variables
+        mov     ecx, z[rip]             # print variables
         mov     edx, y[rbp]
         mov     esi, x[rbp]
         lea     rdi, format[rip]
         mov     eax, 0
         call    printf@plt
 
-        call    addConst            # add to variables
+        call    addConst                # add to variables
         call    addConst
 
-        mov     ecx, z[rip]   # print variables
+        mov     ecx, z[rip]             # print variables
         mov     edx, y[rbp]
         mov     esi, x[rbp]
         lea     rdi, format[rip]
         mov     eax, 0
         call    printf@plt
 
-        mov     eax, 0      # return 0;
-        mov     rsp, rbp    # restore stack pointer
-        pop     rbp         # and caller frame pointer
+        mov     eax, 0                  # return 0;
+        mov     rsp, rbp                # restore stack pointer
+        pop     rbp                     # and caller frame pointer
         ret

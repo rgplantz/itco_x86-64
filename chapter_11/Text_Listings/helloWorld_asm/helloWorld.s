@@ -14,16 +14,15 @@ message:
         .globl  main
         .type   main, @function
 main:
-        push    rbp             # save caller's frame pointer
-        mov     rbp, rsp        # our frame pointer
+        push    rbp                 # save caller's frame pointer
+        mov     rbp, rsp            # our frame pointer
 
-        mov     edx, msgLength  # message length       
-        lea     rsi, message[rip]  # message address
-        mov     edi, STDOUT     # the screen
-        call    write@plt       # write message
+        mov     edx, msgLength      # message length       
+        lea     rsi, message[rip]   # message address
+        mov     edi, STDOUT         # the screen
+        call    write@plt           # write message
 
-        mov     eax, 0          # return 0
+        mov     eax, 0              # return 0
 
-        pop     rbp             # restore caller frame pointer
-        ret                     # back to caller
-
+        pop     rbp                 # restore caller frame pointer
+        ret                         # back to caller

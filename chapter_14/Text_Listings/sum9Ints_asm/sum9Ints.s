@@ -31,45 +31,43 @@ format:
         .globl  main
         .type   main, @function
 main:
-        push    rbp             # save frame pointer
-        mov     rbp, rsp        # set new frame pointer
-        add     rsp, localSize  # for local var.
+        push    rbp                 # save frame pointer
+        mov     rbp, rsp            # set new frame pointer
+        add     rsp, localSize      # for local var.
         
         mov     dword ptr a[rbp], 1 # initialize values
-        mov	    dword ptr b[rbp], 2 #     etc...
+        mov     dword ptr b[rbp], 2 #     etc...
         mov     dword ptr c[rbp], 3
-        mov	    dword ptr d[rbp], 4
-        mov	    dword ptr e[rbp], 5
-        mov	    dword ptr f[rbp], 6
-        mov	    dword ptr g[rbp], 7
+        mov     dword ptr d[rbp], 4
+        mov     dword ptr e[rbp], 5
+        mov     dword ptr f[rbp], 6
+        mov     dword ptr g[rbp], 7
         mov     dword ptr h[rbp], 8
-        mov	    dword ptr i[rbp], 9
+        mov     dword ptr i[rbp], 9
 
-        add     rsp, argSize    # space for arguments
-        mov     eax, i[rbp]     # load i
-        mov     ninth[rsp], rax #   9th argument
-        mov     eax, h[rbp]     # load h
-        mov     eighth[rsp], rax  #   8th argument
-        mov     eax, g[rbp]     # load g
-        mov	    seventh[rsp], rax #   7th argument
-        mov     r9d, f[rbp]     # f is 6th
-        mov     r8d, e[rbp]     # e is 5th
-        mov     ecx, d[rbp]     # d is 4th
-        mov     edx, c[rbp]     # c is 3rd
-        mov     esi, b[rbp]     # b is 2nd
-        mov     edi, a[rbp]     # a is 1st
+        add     rsp, argSize        # space for arguments
+        mov     eax, i[rbp]         # load i
+        mov     ninth[rsp], rax     #   9th argument
+        mov     eax, h[rbp]         # load h
+        mov     eighth[rsp], rax    #   8th argument
+        mov     eax, g[rbp]         # load g
+        mov     seventh[rsp], rax   #   7th argument
+        mov     r9d, f[rbp]         # f is 6th
+        mov     r8d, e[rbp]         # e is 5th
+        mov     ecx, d[rbp]         # d is 4th
+        mov     edx, c[rbp]         # c is 3rd
+        mov     esi, b[rbp]         # b is 2nd
+        mov     edi, a[rbp]         # a is 1st
         call    addNine
-        sub     rsp, argSize    # remove arguments
-        mov     total[rbp], eax # total = sumNine(...)
+        sub     rsp, argSize        # remove arguments
+        mov     total[rbp], eax     # total = sumNine(...)
 	
-        mov     esi, total[rbp] # show result
+        mov     esi, total[rbp]     # show result
         lea     rdi, format[rip]
         mov     eax, 0
         call    printf@plt
 
-        mov     eax, 0          # return 0;
-        mov     rsp, rbp        # restore stack pointer
-        pop     rbp             # and caller frame pointer
+        mov     eax, 0              # return 0;
+        mov     rsp, rbp            # restore stack pointer
+        pop     rbp                 # and caller frame pointer
         ret
-
-

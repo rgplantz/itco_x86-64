@@ -17,25 +17,25 @@ theString:
         .globl  main
         .type   main, @function
 main:
-        push    rbp         # save frame pointer
-        mov     rbp, rsp    # set new frame pointer
-        add     rsp, localSize  # for local var.
+        push    rbp                 # save frame pointer
+        mov     rbp, rsp            # set new frame pointer
+        add     rsp, localSize      # for local var.
 
         lea     rax, theString[rip]
-        mov     aString[rbp], rax # *aString = "Hello World.\n";
+        mov     aString[rbp], rax   # *aString = "Hello World.\n";
 whileLoop:
-        mov     rsi, aString[rbp] # current char in string
-        cmp     byte ptr [rsi], 0 # null character?
-        je      allDone     # yes, all done
+        mov     rsi, aString[rbp]   # current char in string
+        cmp     byte ptr [rsi], 0   # null character?
+        je      allDone             # yes, all done
 
-        mov     edx, 1      # one character
-        mov     edi, STDOUT #    to standard out
+        mov     edx, 1              # one character
+        mov     edi, STDOUT         #    to standard out
         call    write@plt
         
         inc     qword ptr aString[rbp]  # aString++;
-        jmp     whileLoop   # back to top
+        jmp     whileLoop           # back to top
 allDone:
-        mov     eax, 0      # return 0;
-        mov     rsp, rbp    # restore stack pointer
-        pop     rbp         # restore frame pointer
+        mov     eax, 0              # return 0;
+        mov     rsp, rbp            # restore stack pointer
+        pop     rbp                 # and caller frame pointer
         ret
