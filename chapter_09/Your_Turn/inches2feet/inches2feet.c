@@ -9,7 +9,7 @@ int main(void)
 {
   register int feet;
   register int inchesRem;
-  int inches;
+  register int inches;
   register int *ptr;
 
   ptr = &inches;
