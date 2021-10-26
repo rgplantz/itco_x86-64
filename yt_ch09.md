@@ -101,7 +101,7 @@ title: Chapter 9
     17          printf("You entered %i\n", y);
     (gdb) print &x
     $1 = (int *) 0x7fffffffdb04
-    (gdb) print & y
+    (gdb) print &y
     Address requested for identifier "y" which is in register $rbx
     (gdb) i r rbx
     rbx            0x3039              12345
