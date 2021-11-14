@@ -5,7 +5,7 @@ title: Chapter 19
 
 ## Chapter 19
 
-### Page 424
+### Page 425
 1. Scaling by sixteen.
  
     ```
@@ -380,7 +380,7 @@ title: Chapter 19
             ret
     ```
 
-### Page 432
+### Page 435
 1. We had to convert from `float` to `double` in the `addFloats` program because `scanf` and `printf` work with `double`s. We won't need to do the conversions in `addDoubles`, which simplifies the computation algorithm.
 
     ```asm
