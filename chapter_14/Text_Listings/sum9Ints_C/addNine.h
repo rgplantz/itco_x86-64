@@ -1,11 +1,8 @@
-/*
- * sumNine.h
- * Computes sum of nine integers.
- * Bob Plantz - 13 June 2009
+/* addNine.h
+ * Returns sum of nine integers.
  */
-#ifndef SUMNINE_H
-#define SUMNINE_H
+#ifndef ADDNINE_H
+#define ADDNINE_H
 int addNine(int one, int two, int three, int four, int five,
            int six, int seven, int eight, int nine);
 #endif
-

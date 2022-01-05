@@ -39,10 +39,10 @@ readLoop:
         je      endOfString           # yes, mark end of string
         mov     eax, count[rbp]       # current count
         cmp     maxLength[rbp], eax   # is caller's array full?
-        jbe     readLoop              # yes, don't store
+        jbe     readLoop              # yes, read but don't keep
         inc     qword ptr stringAddr[rbp] # no, next byte
         inc     dword ptr count[rbp]      # count++;
-        jmp     readLoop              # and look at it
+        jmp     readLoop              # back to reading
         
 endOfString:
         mov     rax, stringAddr[rbp]  # current pointer
