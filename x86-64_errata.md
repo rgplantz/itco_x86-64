@@ -5,6 +5,8 @@ title: x86-64 Errata
 # x86-64 Errata
 
 * 22 February 2022: Table 2-6, page 23, should be:
+
+    Table 2-6: "Hello, World!" stored in memory
     
     |   Address   | Content |   Address    | Content |
     | ----------- | ------- | ------------ | ------- |
