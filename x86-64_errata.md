@@ -7,7 +7,6 @@ title: x86-64 Errata
 * 22 February 2022: Table 2-6, page 23, should be:
 
 Table 2-6: "Hello, World!" stored in memory
--------------------------------------------------
 | Address   | Content | Address    | Content    |
 |-----------|---------|------------|------------|
 | 0x4004a1: | 0x48    | 0x4004a8:  | 0x57       |
@@ -17,4 +16,3 @@ Table 2-6: "Hello, World!" stored in memory
 | 0x4004a5: | 0x6f    | 0x4004ac:  | 0x64       |
 | 0x4004a6: | 0x2c    | 0x4004ad:  | 0x21       |
 | 0x4004a7: | 0x20    | 0x4004ae:  | 0x00       |
--------------------------------------------------
