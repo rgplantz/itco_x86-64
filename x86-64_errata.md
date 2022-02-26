@@ -1,3 +1,7 @@
+---
+layout: default
+title: x86-64 Errata
+---
 # x86-64 Errata
 
 * 22 February 2022: Table 2-6, page 23, should be:
