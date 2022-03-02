@@ -39,4 +39,5 @@ title: x86-64 Errata
             Let difference_i = x_i - y_i
     ```
 * 3 March 2022: Equation at the bottom of page 47. There should not be a space between '+' and '('.
+* 3 March 2022: At the end of the second full paragraph on page 50, "In the previous example" should be "In this example."
   
