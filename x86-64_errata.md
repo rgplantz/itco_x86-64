@@ -38,3 +38,5 @@ title: x86-64 Errata
                 Add 10 to x_j
             Let difference_i = x_i - y_i
     ```
+* 3 March 2022: Equation at the bottom of page 47. There should not be a space between '+' and '('.
+  
