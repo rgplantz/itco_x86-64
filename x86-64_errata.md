@@ -17,3 +17,24 @@ title: x86-64 Errata
     | `0x4004a5:` | `0x6f`  | `0x4004ac:`  | `0x64`  |
     | `0x4004a6:` | `0x2c`  | `0x4004ad:`  | `0x21`  |
     | `0x4004a7:` | `0x20`  | `0x4004ae:`  | `0x00`  |
+
+* 1 March 2022: Subtraction algorithm at top of page 42. The "Let" on the last line should be aligned with the "While" four lines above. (The _ character indicates subscript in this algorithm.)
+    ```
+    Let borrow = 0
+    Repeat for each i = 0,..., (N-1)
+        If y_i <= x_i
+            Let difference_i = x_i - y_i
+        Else
+            Let j = i + 1
+            While (x_j = 0) and (j < N)
+                Add 1 to j
+            If j = N
+                Let borrow = 1
+                Subtract 1 from j
+                Add 10 to x_j
+            While j > i
+                Subtract 1 from x_j
+                Subtract 1 from j
+                Add 10 to x_j
+            Let difference_i = x_i - y_i
+    ```
