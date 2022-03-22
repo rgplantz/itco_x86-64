@@ -2,20 +2,19 @@
 layout: default
 title: x86-64 Errata
 ---
+{% include mathjax.html %}
 # x86-64 Errata
 
 - 21 March 2022: In the second code block on page 33, `$2 = "123abc\000\177\000>` should be `$2 = "123abc\000\177\000"`. Note that you may see different numbers after the first `\000`; these are "garbage" values after the text string that were left in memory. You'll learn more about this when we get into assembly language starting in Chapter 10. (Thanks to 陈端阳)
 - 21 March 2022: In the third code block on page 33, on the first line, the `#` in `%#x` is *not* an error. It causes `printf` to use an "alternate form" for the display. In our case, it places "0x" at the beginning of the hexadecimal display. (Thanks to 陈端阳)
 - 21 March 2022: On page 93, the third line of the second equation reads <img src="https://render.githubusercontent.com/render/math?math=2.0\times 10^{-3}"> ohms, but it should should be <img src="https://render.githubusercontent.com/render/math?math=2.0\times 10^{-3}"> amps.
 - 21 March 2022: On page 97 the first equation should be:
-  $$
-  \begin{aligned}
+  <img src="https://render.githubusercontent.com/render/math?math=\begin{aligned}
     V_{BC} &= 5.0\ (1-e^{\frac{-6\times 10^{-3}}{10^{-3}}})\\
            &= 5.0\ (1-e^{-6})\\
            &= 5.0\ \times 0.9975 \\
            &= 4.9876 \textrm{ volts}
-  \end{aligned}
-  $$
+  \end{aligned}">
 - 21 March 2022: On page 107 in the description of **NAND**, "We’ll use $\neg(x\land x)$ to designate the NAND operation." should be "We’ll use $\neg(x\land y)...$"
 - 21 March 2022: On page 117 the last equation, line 4 should be $\neg(x_i \veebar y_i)$
 - 21 March 2022: At the top of page 118, the first equation should be
