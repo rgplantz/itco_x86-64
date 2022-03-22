@@ -7,10 +7,14 @@ title: x86-64 Errata
 - 21 March 2022: In the second code block on page 33, `$2 = "123abc\000\177\000>` should be `$2 = "123abc\000\177\000"`. Note that you may see different numbers after the first `\000`; these are "garbage" values after the text string that were left in memory. You'll learn more about this when we get into assembly language starting in Chapter 10. (Thanks to 陈端阳)
 - 21 March 2022: In the third code block on page 33, on the first line, the `#` in `%#x` is *not* an error. It causes `printf` to use an "alternate form" for the display. In our case, it places "0x" at the beginning of the hexadecimal display.
 <<<<<<< HEAD
+<<<<<<< HEAD
 - 21 March 2022: On page 93, the third line of the second equation reads  ohms, but it should should be  amps.
 =======
 - 21 March 2022: On page 93, the third line of the second equation reads <img src="https://render.githubusercontent.com/render/math?math=2.0\times 10^{-3}"> ohms, but it should should be <img src="https://render.githubusercontent.com/render/math?math=2.0\times 10^{-3}"> amps.
 >>>>>>> parent of a9e4279 (Update x86-64_errata.md)
+=======
+- 21 March 2022: On page 93, the third line of the second equation reads $2.0\times 10^{-3}$ ohms, but it should should be $2.0\times 10^{-3}$ amps.
+>>>>>>> parent of f4ae2d6 (Update x86-64_errata.md)
 - 21 March 2022: On page 97 the first equation should be:
   $$
   \begin{aligned}
