@@ -2,7 +2,7 @@
 layout: default
 title: x86-64 Errata
 ---
-{% include lib/mathjax.html %}
+{% include mathjax.html %}
 # x86-64 Errata
 
 - 21 March 2022: In the second code block on page 33, `$2 = "123abc\000\177\000>` should be `$2 = "123abc\000\177\000"`. Note that you may see different numbers after the first `\000`; these are "garbage" values after the text string that were left in memory. You'll learn more about this when we get into assembly language starting in Chapter 10. (Thanks to 陈端阳)
