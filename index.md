@@ -1,5 +1,5 @@
 ---
-title: Solutions and Source Code
+title: Corrections, Solutions, and Source Code
 list_title: Helpful Hints
 ---
 
