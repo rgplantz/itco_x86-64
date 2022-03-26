@@ -5,6 +5,7 @@ title: x86-64 Errata
 {% include mathjax.html %}
 # x86-64 Errata
 
+- 25 March 2022: On page 46, the list items 3 and 4 should be numbered 1 and 2, respectively. This is a separate arithmetic operation from the two steps (1 and 2) just above.
 - 21 March 2022: In the second code block on page 33, `$2 = "123abc\000\177\000>` should be `$2 = "123abc\000\177\000"`. Note that you may see different numbers after the first `\000`; these are "garbage" values after the text string that were left in memory. You'll learn more about this when we get into assembly language starting in Chapter 10. (Thanks to 陈端阳)
 - 21 March 2022: In the third code block on page 33, on the first line, the `#` in `%#x` is *not* an error. It causes `printf` to use an "alternate form" for the display. In our case, it places `0x` at the beginning of the hexadecimal display. (Thanks to 陈端阳)
 - 21 March 2022: On page 93, the third line of the second equation reads $$2.0\times 10^{-3}$$ ohms, but it should should be $$2.0\times 10^{-3}$$ amps. (Thanks to 陈端阳)
