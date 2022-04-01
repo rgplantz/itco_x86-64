@@ -5,32 +5,20 @@ title: x86-64 Errata
 {% include mathjax.html %}
 # x86-64 Errata
 
-- 28 March 2022: On page 75, just above the last equation, "manipulations to other two groupings" should be "manipulations to the other two groupings."
-- 25 March 2022: On page 46, the list items 3 and 4 should be numbered 1 and 2, respectively. This is a separate arithmetic operation from the two steps (1 and 2) just above.
-- 21 March 2022: In the second code block on page 33, `$2 = "123abc\000\177\000>` should be `$2 = "123abc\000\177\000"`. Note that you may see different numbers after the first `\000`; these are "garbage" values after the text string that were left in memory. You'll learn more about this when we get into assembly language starting in Chapter 10. (Thanks to 陈端阳)
-- 21 March 2022: In the third code block on page 33, on the first line, the `#` in `%#x` is *not* an error. It causes `printf` to use an "alternate form" for the display. In our case, it places `0x` at the beginning of the hexadecimal display. (Thanks to 陈端阳)
-- 21 March 2022: On page 93, the third line of the second equation reads $$2.0\times 10^{-3}$$ ohms, but it should should be $$2.0\times 10^{-3}$$ amps. (Thanks to 陈端阳)
-- 21 March 2022: On page 97 the first equation should be (Thanks to 陈端阳):
-  $$
-  \begin{aligned}
-    V_{BC} &= 5.0\ (1-e^{\frac{-6\times 10^{-3}}{10^{-3}}})\\
-           &= 5.0\ (1-e^{-6})\\
-           &= 5.0\ \times 0.9975 \\
-           &= 4.9876 \textrm{ volts}
-  \end{aligned}
-  $$
-- 21 March 2022: On page 107 in the description of **NAND**, "We’ll use $$\neg(x \land x)$$ to designate the NAND operation." should be "We’ll use $$\neg(x \land y)...$$" (Thanks to 陈端阳)
-- 21 March 2022: On page 117 the last equation, line 4 should be $$\neg(x_i \veebar y_i)$$. \ (Thanks to 陈端阳)
-- 21 March 2022: At the top of page 118, the first equation should be (Thanks to 陈端阳):
-  $$
-  \begin{aligned}
-    Sum_i(Carry_i,x_i,y_i) &= \neg Carry_i \land (x_i \veebar y_i)\vee Carry_i \land \neg(x_i\veebar y_i)\\
-                           &=Carry_i \veebar(x_i \veebar y_i)
-  \end{aligned}
-  $$
-- 3 March 2022: At the end of the second full paragraph on page 50, "In the previous example" should be "In this example."
-- 3 March 2022: Equation at the bottom of page 47. There should not be a space between '+' and '('.
-- 1 March 2022: Subtraction algorithm at top of page 42. The "Let" on the last line should be aligned with the "While" four lines above. (The _ character indicates subscript in this algorithm.)
+- Page 23 (22 February 2022): Table 2-6, should be:
+    
+    |   Address   | Content |   Address    | Content |
+    | ----------- | ------- | ------------ | ------- |
+    | `0x4004a1:` | `0x48`  | `0x4004a8:`  | `0x57`  |
+    | `0x4004a2:` | `0x65`  | `0x4004a9:`  | `0x6f`  |
+    | `0x4004a3:` | `0x6c`  | `0x4004aa:`  | `0x72`  |
+    | `0x4004a4:` | `0x6c`  | `0x4004ab:`  | `0x6c`  |
+    | `0x4004a5:` | `0x6f`  | `0x4004ac:`  | `0x64`  |
+    | `0x4004a6:` | `0x2c`  | `0x4004ad:`  | `0x21`  |
+    | `0x4004a7:` | `0x20`  | `0x4004ae:`  | `0x00`  |
+- Page 33 (21 March 2022): In the second code block, `$2 = "123abc\000\177\000>` should be `$2 = "123abc\000\177\000"`. Note that you may see different numbers after the first `\000`; these are "garbage" values after the text string that were left in memory. You'll learn more about this when we get into assembly language starting in Chapter 10. (Thanks to 陈端阳)
+- Page 33 (21 March 2022): In the third code block, on the first line, the `#` in `%#x` is *not* an error. It causes `printf` to use an "alternate form" for the display. In our case, it places `0x` at the beginning of the hexadecimal display. (Thanks to 陈端阳)
+- Page 42 (1 March 2022): In the subtraction algorithm at top of the page, the "Let" on the last line should be aligned with the "While" four lines above. (The _ character indicates subscript in this algorithm.)
     ```
     Let borrow = 0
     Repeat for each i = 0,..., (N-1)
@@ -50,18 +38,28 @@ title: x86-64 Errata
                 Add 10 to x_j
             Let difference_i = x_i - y_i
     ```
-- 22 February 2022: Table 2-6, page 23, should be:
-
-    Table 2-6: "Hello, World!" stored in memory
-    
-    |   Address   | Content |   Address    | Content |
-    | ----------- | ------- | ------------ | ------- |
-    | `0x4004a1:` | `0x48`  | `0x4004a8:`  | `0x57`  |
-    | `0x4004a2:` | `0x65`  | `0x4004a9:`  | `0x6f`  |
-    | `0x4004a3:` | `0x6c`  | `0x4004aa:`  | `0x72`  |
-    | `0x4004a4:` | `0x6c`  | `0x4004ab:`  | `0x6c`  |
-    | `0x4004a5:` | `0x6f`  | `0x4004ac:`  | `0x64`  |
-    | `0x4004a6:` | `0x2c`  | `0x4004ad:`  | `0x21`  |
-    | `0x4004a7:` | `0x20`  | `0x4004ae:`  | `0x00`  |
+- Page 46 (25 March 2022): The list items 3 and 4 should be numbered 1 and 2, respectively. This is a separate arithmetic operation from the two steps (1 and 2) just above.
+- Page 47 (3 March 2022): In the equation at the bottom, there should not be a space between '+' and '('.
+- Page 50 (3 March 2022): At the bottom of the page, "In the previous example" should be "In this example."
+- Page 75 (28 March 2022): Just above the last equation, "manipulations to other two groupings" should be "manipulations to the other two groupings."
+- Page 93 (21 March 2022): The third line of the second equation "ohms" should be "amps." (Thanks to 陈端阳)
+- Page 97 (21 March 2022): The first equation should be (Thanks to 陈端阳):
+  $$
+  \begin{aligned}
+    V_{BC} &= 5.0\ (1-e^{\frac{-6\times 10^{-3}}{10^{-3}}})\\
+           &= 5.0\ (1-e^{-6})\\
+           &= 5.0\ \times 0.9975 \\
+           &= 4.9876 \textrm{ volts}
+  \end{aligned}
+  $$
+- Page 107 (21 March 2022): In the description of **NAND**, "We’ll use $$\neg(x \land x)$$ to designate the NAND operation." should be (Thanks to 陈端阳) "We’ll use $$\neg(x \land y)...$$
+- Page 117 (21 March 2022): The last equation, line 4 should be (Thanks to 陈端阳): $$\neg(x_i \veebar y_i)$$
+- Page 118 (21 March 2022): The first equation should be (Thanks to 陈端阳):
+  $$
+  \begin{aligned}
+    Sum_i(Carry_i,x_i,y_i) &= \neg Carry_i \land (x_i \veebar y_i)\vee Carry_i \land \neg(x_i\veebar y_i)\\
+                           &=Carry_i \veebar(x_i \veebar y_i)
+  \end{aligned}
+  $$
 
   
