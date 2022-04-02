@@ -1,9 +1,9 @@
 ---
 layout: default
-title: x86-64 Errata
+title: x86-64 Corrections
 ---
 {% include mathjax.html %}
-# x86-64 Errata
+# x86-64 Corrections
 
 - Page 23 (22 February 2022): Table 2-6, should be:
     
