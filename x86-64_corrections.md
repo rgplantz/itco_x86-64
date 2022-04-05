@@ -5,6 +5,8 @@ title: x86-64 Corrections
 {% include mathjax.html %}
 # x86-64 Corrections
 
+*Updated 4 April 2022*
+
 - Page 23 (22 February 2022): Table 2-6, should be:
     
     |   Address   | Content |   Address    | Content |
@@ -41,6 +43,7 @@ title: x86-64 Corrections
 - Page 46 (25 March 2022): The list items 3 and 4 should be numbered 1 and 2, respectively. This is a separate arithmetic operation from the two steps (1 and 2) just above.
 - Page 47 (3 March 2022): In the equation at the bottom, there should not be a space between '+' and '('.
 - Page 50 (3 March 2022): At the bottom of the page, "In the previous example" should be "In this example."
+- Page 69 (4 April 2022): In the first paragraph of the **Canonical Product or Product of Maxterms** section, "design that specifies when carry is `0`" should be "design that specifies when the complement of carry is `0`."
 - Page 75 (28 March 2022): Just above the last equation, "manipulations to other two groupings" should be "manipulations to the other two groupings."
 - Page 93 (21 March 2022): The third line of the second equation "ohms" should be "amps." (Thanks to 陈端阳)
 - Page 97 (21 March 2022): The first equation should be (Thanks to 陈端阳):
