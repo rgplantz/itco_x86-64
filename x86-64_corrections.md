@@ -45,7 +45,8 @@ title: x86-64 Corrections
 - Page 50 (3 March 2022): At the bottom of the page, "In the previous example" should be "In this example."
 - Page 69 (4 April 2022): In the first paragraph of the **Canonical Product or Product of Maxterms** section, "design that specifies when carry is `0`" should be "design that specifies when the complement of carry is `0`."
 - Page 75 (28 March 2022): Just above the last equation, "manipulations to other two groupings" should be "manipulations to the other two groupings."
-- Page 81 (7 April 2022): In Figures 4-12 and 4-13, the horizontal axis should be labeled "`xy`" not "`yz`."
+- Page 81 (7 April 2022): In Figures 4-15, the horizontal axis should be labeled "`xy`" not "`yz`."
+- Page 82 (7 April 2022): In Figure 4-12 and 4-13, the horizontal axis should be labeled "`xy`" not "`yz`."
 - Page 93 (21 March 2022): The third line of the second equation "ohms" should be "amps." (Thanks to 陈端阳)
 - Page 97 (21 March 2022): The first equation should be (Thanks to 陈端阳):
   $$
