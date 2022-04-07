@@ -4,7 +4,7 @@ list_title: Helpful Hints
 ---
 
 ## Corrections to the book
-[First printing.](/x86-64_errata.md)
+[First printing.](/x86-64_corrections.md)
 
 ## Solutions to Your Turn Exercises
 Almost all programming problems have more than one solution. My solutions reflect my programming style, which is to emphasize simplicity and readability.
