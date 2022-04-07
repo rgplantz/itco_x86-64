@@ -47,6 +47,7 @@ title: x86-64 Corrections
 - Page 75 (28 March 2022): Just above the last equation, "manipulations to other two groupings" should be "manipulations to the other two groupings."
 - Page 81 (7 April 2022): In Figures 4-15, the horizontal axis should be labeled "`xy`" not "`yz`."
 - Page 82 (7 April 2022): In Figure 4-12 and 4-13, the horizontal axis should be labeled "`xy`" not "`yz`."
+- Page 87 (7 April 2022): The last paragraph in Your Turn ("Design a logic function...") should be labeled as exercise 7.
 - Page 93 (21 March 2022): The third line of the second equation "ohms" should be "amps." (Thanks to 陈端阳)
 - Page 97 (21 March 2022): The first equation should be (Thanks to 陈端阳):
   $$
