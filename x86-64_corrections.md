@@ -48,6 +48,7 @@ title: x86-64 Corrections
 - Page 81: In Figures 4-15, the horizontal axis should be labeled "`xy`" not "`yz`."
 - Page 82: In Figure 4-12 and 4-13, the horizontal axis should be labeled "`xy`" not "`yz`."
 - Page 87: The last paragraph in Your Turn ("Design a logic function...") should be labeled as exercise 7.
+- Page 90: "Power source that provides..." should be "Power sources that provide..."
 - Page 93: The third line of the second equation "ohms" should be "amps." (Thanks to 陈端阳)
 - Page 97: The first equation should be (Thanks to 陈端阳):
   $$
