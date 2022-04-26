@@ -60,6 +60,7 @@ title: x86-64 Corrections
            &= 4.9876 \textrm{ volts}
   \end{aligned}
   $$
+- Page 100: In the last full paragraph on the page "When the button is not pushed..." should be "When the buttons are not pushed...", and "When the button is pushed..." should be "When the buttons are pushed..."
 - Page 107: In the description of **NAND**, "We’ll use $$\neg(x \land x)$$ to designate the NAND operation." should be (Thanks to 陈端阳): "We’ll use $$\neg(x \land y)...$$
 - Page 117: The last equation, line 4 should be (Thanks to 陈端阳): $$\neg(x_i \veebar y_i)$$
 - Page 118): The first equation should be (Thanks to 陈端阳):
