@@ -62,12 +62,13 @@ title: x86-64 Corrections
   $$
 - Page 100: In the last full paragraph on the page "When the button is not pushed..." should be "When the buttons are not pushed...", and "When the button is pushed..." should be "When the buttons are pushed..."
 - Page 104: The caption of Figure 5-13 should be "P-channel MOSFET switch equivalent circuit: (a) switch open, (b) switch closed"
-- Page 107: In the description of **NAND**, "We’ll use $$\neg(x \land x)$$ to designate the NAND operation." should be (Thanks to 陈端阳): "We’ll use $$\neg(x \land y)...$$
+- Page 107: In the description of **NAND**, "We’ll use $\neg(x \wedge x)$ to designate the NAND operation." should be: "We’ll use $\neg(x \wedge y)...$ (Thanks to 陈端阳)
+- Page 109: In the first paragraph "$\neg ((\neg x) \vee (\neg y))$" should be "$\neg (\neg x \wedge \neg y)$"
 - Page 117: The last equation, line 4 should be (Thanks to 陈端阳): $$\neg(x_i \veebar y_i)$$
 - Page 118): The first equation should be (Thanks to 陈端阳):
   $$
   \begin{aligned}
-    Sum_i(Carry_i,x_i,y_i) &= \neg Carry_i \land (x_i \veebar y_i)\vee Carry_i \land \neg(x_i\veebar y_i)\\
+    Sum_i(Carry_i,x_i,y_i) &= \neg Carry_i \wedge (x_i \veebar y_i)\vee Carry_i \wedge \neg(x_i\veebar y_i)\\
                            &=Carry_i \veebar(x_i \veebar y_i)
   \end{aligned}
   $$
