@@ -51,6 +51,7 @@ title: x86-64 Corrections
 - Page 87: The last paragraph in Your Turn ("Design a logic function...") should be labeled as exercise 7.
 - Page 90: "Power source that provides..." should be "Power sources that provide..."
 - Page 93: The third line of the second equation "ohms" should be "amps." (Thanks to 陈端阳)
+- Page 95: In the first line below the first equation "voltage difference across the resistor" should be "voltage difference across the capacitor."
 - Page 97: The first equation should be (Thanks to 陈端阳):
   $$
   \begin{aligned}
