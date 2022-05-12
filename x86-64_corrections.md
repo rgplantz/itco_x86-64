@@ -66,12 +66,13 @@ title: x86-64 Corrections
 - Page 107: In the description of **NAND**, "We’ll use $$\neg(x \wedge x)$$ to designate the NAND operation." should be: "We’ll use $$\neg(x \wedge y)...$$ (Thanks to 陈端阳)
 - Page 109: In the first paragraph "$$\neg ((\neg x) \vee (\neg y))$$" should be "$$\neg (\neg x \wedge \neg y)$$"
 - Page 117: The last equation, line 4 should be (Thanks to 陈端阳): $$\neg(x_i \veebar y_i)$$
-- Page 118): The first equation should be (Thanks to 陈端阳):
+- Page 118: The first equation should be (Thanks to 陈端阳):
   $$
   \begin{aligned}
     Sum_i(Carry_i,x_i,y_i) &= \neg Carry_i \wedge (x_i \veebar y_i)\vee Carry_i \wedge \neg(x_i\veebar y_i)\\
                            &=Carry_i \veebar(x_i \veebar y_i)
   \end{aligned}
   $$
+- Page 118: In the second equation, $$Carry_{i+1}$$ should be $$Carry_{i+1}(Carry_i,x_i,y_i)$$.
 
   
