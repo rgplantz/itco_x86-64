@@ -74,5 +74,6 @@ title: x86-64 Corrections
   \end{aligned}
   $$
 - Page 118: In the second equation, $$Carry_{i+1}$$ should be $$Carry_{i+1}(Carry_i,x_i,y_i)$$.
+- Page 127: In the first paragraph, both instances of $$s_{0}s_{1}$$ should be $$s_{1}s_{0}$$, and "...would be connected one of..." should be "...would be connected to one of..."
 
   
