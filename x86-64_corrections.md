@@ -74,6 +74,20 @@ title: x86-64 Corrections
   \end{aligned}
   $$
 - Page 118: In the second equation, $$Carry_{i+1}$$ should be $$Carry_{i+1}(Carry_i,x_i,y_i)$$.
-- Page 127: In the first paragraph, both instances of $$s_{0}s_{1}$$ should be $$s_{1}s_{0}$$, and "...would be connected one of..." should be "...would be connected to one of..."
-
-  
+- Page 127: In the first paragraph, both instances of $$s_{0}s_{1}$$ should be $$s_{1}s_{0}$$, and "...would be connected one of..." should be "...would be connected to one of...
+- Page 187: In the third paragraph, "...range -32,767 to +32,767..." should be "...range -32,768 to +32,767...", and "...at least 0 to 65,525..." should be "...at least 0 to 65,535...". (Thanks to 陈端阳)
+- Page 256: The comments in the first code block should read (Thanks to 陈端阳):
+    ```
+            jne     skip    # do not jump if equal
+            jmp     FarAway # jump if equal
+    skip:   next instruction
+    ```
+- Page 345: In Listing 16-9 (Thanks to 陈端阳):
+    ```
+      *intPtr = *intPtr  4;
+    ```
+    should be
+    ```
+      *intPtr = *intPtr<<4;
+    ```
+- Page 375: In the third paragraph, "...with the `cdge` instruction..." should be "...with the `cdqe` instruction..." (Thanks to 陈端阳)
