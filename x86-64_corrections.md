@@ -20,6 +20,15 @@ title: x86-64 Corrections
     | `0x4004a7:` | `0x20`  | `0x4004ae:`  | `0x00`  |
 - Page 33: In the second code block, `$2 = "123abc\000\177\000>` should be `$2 = "123abc\000\177\000"`. Note that you may see different numbers after the first `\000`; these are "garbage" values after the text string that were left in memory. You'll learn more about this when we get into assembly language starting in Chapter 10. (Thanks to 陈端阳)
 - Page 33: In the third code block, on the first line, the `#` in `%#x` is *not* an error. It causes `printf` to use an "alternate form" for the display. In our case, it places `0x` at the beginning of the hexadecimal display. (Thanks to 陈端阳)
+- Page 40: The algorithm at the bottom of the page should be (The _ character indicates subscript in this algorithm.) (Thanks to Erlis Ruli):
+    ```
+    Let carry_i = 0
+    Repeat for each i = 0,..., (N-1)            // starting in ones place
+        sum_i = x_i + y_i + carry_i % 10        // remainder
+        carry_(i+1) = x_i + y_i + carry_i / 10  // integer division
+    ```
+- Page 41: Second paragraph, "...ultimate carry is..." should be "...ultimate carry, `carry_N`, is..." (Thanks to Erlis Ruli):
+
 - Page 42: In the subtraction algorithm at top of the page, the "Let" on the last line should be aligned with the "While" four lines above. (The _ character indicates subscript in this algorithm.)
     ```
     Let borrow = 0
