@@ -83,6 +83,7 @@ title: x86-64 Corrections
   \end{aligned}
   $$
 - Page 118: In the second equation, $$Carry_{i+1}$$ should be $$Carry_{i+1}(Carry_i,x_i,y_i)$$.
+- Page 120: In Figure 6-7, `s = s + y` should be `s = x + y`.
 - Page 127: In the first paragraph, both instances of $$s_{0}s_{1}$$ should be $$s_{1}s_{0}$$, and "...would be connected one of..." should be "...would be connected to one of...
 - Page 137: First sentence, "...for an SR." should be "...for an SR latch."
 - Page 137: In the description of S = `0`, R = `0`, "...upper NOT gate..." should be "...upper NOR gate..."
