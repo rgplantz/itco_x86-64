@@ -88,6 +88,7 @@ title: x86-64 Corrections
 - Page 137: First sentence, "...for an SR." should be "...for an SR latch."
 - Page 137: In the description of S = `0`, R = `0`, "...upper NOT gate..." should be "...upper NOR gate..."
 - Page 148: First line, "...D flip-flop..." should be "...D latch..."
+- Page 150: In the middle of the page, "The leads us..." should be "This leads us..."
 - Page 187: In the third paragraph, "...range -32,767 to +32,767..." should be "...range -32,768 to +32,767...", and "...at least 0 to 65,525..." should be "...at least 0 to 65,535...". (Thanks to 陈端阳)
 - Page 256: The comments in the first code block should read (Thanks to 陈端阳):
     ```
