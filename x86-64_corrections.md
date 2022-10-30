@@ -96,6 +96,8 @@ title: x86-64 Corrections
             jmp     FarAway # jump if equal
     skip:   next instruction
     ```
+- Page 282: On the second line on the page, "`if-else`" should be "`else-if`".
+- Page 282: Near the bottom of the "`else-if`" general form, "`else (expression_n)`" should be "`else`".
 - Page 345: In Listing 16-9 (Thanks to 陈端阳):
     ```
       *intPtr = *intPtr  4;
