@@ -5,7 +5,7 @@ title: x86-64 Corrections
 {% include mathjax.html %}
 # x86-64 Corrections
 
-*Updated 4 April 2022*
+*Updated 30 October 2022*
 
 - Page 23: Table 2-6, should be:
     
@@ -97,7 +97,7 @@ title: x86-64 Corrections
     skip:   next instruction
     ```
 - Page 282: On the second line on the page, "`if-else`" should be "`else-if`".
-- Page 282: Near the bottom of the "`else-if`" general form, "`else (expression_n)`" should be "`else`".
+- Page 282: Near the bottom of the "`else-if`" general form, "`else` *`(expression_n)`*" should be "`else`".
 - Page 345: In Listing 16-9 (Thanks to 陈端阳):
     ```
       *intPtr = *intPtr  4;
