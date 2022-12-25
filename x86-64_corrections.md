@@ -5,7 +5,7 @@ title: x86-64 Corrections
 {% include mathjax.html %}
 # x86-64 Corrections
 
-*Updated 19 November 2022*
+*Updated 24 December 2022*
 
 - Page 23: Table 2-6, should be:
     
@@ -99,6 +99,7 @@ title: x86-64 Corrections
 - Page 282: On the second line on the page, "`if-else`" should be "`else-if`".
 - Page 282: Near the bottom of the "`else-if`" general form, "`else` *`(expression_n)`*" should be "`else`".
 - Page 293: Second line in Listing 14-4 should read, `Adds two global integers.`
+- Page 294: In the fourth full paragraph, "The other techniques for the called function to receive an output from the calling function..." should read, "The other techniques for the calling function to receive an output from the called function..."
 - Page 345: In Listing 16-9 (Thanks to 陈端阳):
     ```
       *intPtr = *intPtr  4;
