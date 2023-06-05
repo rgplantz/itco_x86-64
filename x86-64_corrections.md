@@ -5,7 +5,7 @@ title: x86-64 Corrections
 {% include mathjax.html %}
 # x86-64 Corrections
 
-*Updated 31 March 2023*
+*Updated 2023-06-04*
 
 - Page 23: Table 2-6, should be:
     
