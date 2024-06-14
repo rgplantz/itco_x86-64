@@ -7,7 +7,7 @@ title: x86-64 Corrections
 
 *Updated 2024-06-13*
 
-- Page 22: The line at the bottom should read "...must allocate 15 bytes for this string: 13 for `Hello, World!`,(Thanks to Bobby Bianchi)". 
+- Page 22: The line at the bottom should read "...must allocate 15 bytes for this string: 13 for `Hello, World!`,". (Thanks to Bobby Bianchi)
 
   Page 23: Table 2-6 should have the caption "`Hello, World!\n` Stored in Memory" (Thanks to Bobby Bianchi)
     
