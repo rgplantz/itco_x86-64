@@ -5,19 +5,22 @@ title: x86-64 Corrections
 {% include mathjax.html %}
 # x86-64 Corrections
 
-*Updated 2023-06-04*
+*Updated 2024-06-13*
 
-- Page 23: Table 2-6, should be:
+- Page 22: The line at the bottom should read "...must allocate 15 bytes for this string: 13 for `Hello, World!`,(Thanks to Bobby Bianchi)". 
+
+  Page 23: Table 2-6 should have the caption "`Hello, World!\n` Stored in Memory" (Thanks to Bobby Bianchi)
     
     |   Address   | Content |   Address    | Content |
     | ----------- | ------- | ------------ | ------- |
-    | `0x4004a1:` | `0x48`  | `0x4004a8:`  | `0x57`  |
-    | `0x4004a2:` | `0x65`  | `0x4004a9:`  | `0x6f`  |
-    | `0x4004a3:` | `0x6c`  | `0x4004aa:`  | `0x72`  |
-    | `0x4004a4:` | `0x6c`  | `0x4004ab:`  | `0x6c`  |
-    | `0x4004a5:` | `0x6f`  | `0x4004ac:`  | `0x64`  |
-    | `0x4004a6:` | `0x2c`  | `0x4004ad:`  | `0x21`  |
+    | `0x4004a1:` | `0x48`  | `0x4004a8:`  | `0x6f`  |
+    | `0x4004a2:` | `0x65`  | `0x4004a9:`  | `0x72`  |
+    | `0x4004a3:` | `0x6c`  | `0x4004aa:`  | `0x6c`  |
+    | `0x4004a4:` | `0x6c`  | `0x4004ab:`  | `0x64`  |
+    | `0x4004a5:` | `0x6f`  | `0x4004ac:`  | `0x21`  |
+    | `0x4004a6:` | `0x2c`  | `0x4004ad:`  | `0x0a`  |
     | `0x4004a7:` | `0x20`  | `0x4004ae:`  | `0x00`  |
+    | `0x4004a8:` | `0x57`  |
 - Page 33: In the second code block, `$2 = "123abc\000\177\000>` should be `$2 = "123abc\000\177\000"`. Note that you may see different numbers after the first `\000`; these are "garbage" values after the text string that were left in memory. You'll learn more about this when we get into assembly language starting in Chapter 10. (Thanks to 陈端阳)
 - Page 33: In the third code block, on the first line, the `#` in `%#x` is *not* an error. It causes `printf` to use an "alternate form" for the display. In our case, it places `0x` at the beginning of the hexadecimal display. (Thanks to 陈端阳)
 - Page 40: The algorithm at the bottom of the page should be (The _ character indicates subscript in this algorithm.) (Thanks to Erlis Ruli):
