@@ -5,7 +5,7 @@ title: x86-64 Corrections
 {% include mathjax.html %}
 # x86-64 Corrections
 
-*Updated 2024-06-13*
+*Updated 2025-01-20*
 
 - Page 240: `.equ    aLetter,-1` should be `.equ    aLetter,-9` (Thanks to Alex Hanson)
 
@@ -97,6 +97,9 @@ title: x86-64 Corrections
 - Page 187: In the third paragraph, "...range -32,767 to +32,767..." should be "...range -32,768 to +32,767...", and "...at least 0 to 65,525..." should be "...at least 0 to 65,535...". (Thanks to 陈端阳)
 - Page 201: At the end of the second line of the command "`doNothingProg1.c`" should be "`doNothingProg.c`".
 - Page 240: The last four lines in the `echoChar.s` listing on this page should be deleted. And the wingding just before `aLetter` in the third line from the bottom should be just before `aLetter` in the second line from the top of page 241. (Thanks to David Warmuth)
+- Page 251: "The two opcodes for moving immediate data into a register are `11010rrr`
+and `11011rrr`" should be "The two opcodes for moving immediate data into a register are `10110rrr`
+and `10111rrr`". (Thanks to Maciej Krzanowski)
 - Page 256: The comments in the first code block should read (Thanks to 陈端阳):
     ```
             jne     skip    # do not jump if equal
