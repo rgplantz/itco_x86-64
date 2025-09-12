@@ -3,7 +3,7 @@ title: Corrections, Solutions, and Source Code
 list_title: Helpful Hints
 ---
 
-## Corrections to the book
+## Errata for the book
 [First printing.](/x86-64_corrections.md)
 
 ## Solutions to Your Turn Exercises
